@@ -1,0 +1,461 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.5">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Gym App&lt;/title&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Bootstrap 5 CSS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link</p>
+<p class="p1"><span class="Apple-converted-space">    </span>href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"</p>
+<p class="p1"><span class="Apple-converted-space">    </span>rel="stylesheet"</p>
+<p class="p1"><span class="Apple-converted-space">  </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Bootstrap Icons --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link</p>
+<p class="p1"><span class="Apple-converted-space">    </span>href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"</p>
+<p class="p1"><span class="Apple-converted-space">    </span>rel="stylesheet"</p>
+<p class="p1"><span class="Apple-converted-space">  </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Canvas Confetti --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"&gt;&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--primary: #54FD1B;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--text-dark: #000;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--bg-dark: #1a1a1a;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>* { box-sizing: border-box; margin: 0; padding: 0; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>html, body { height: 100%; font-family: "Helvetica Neue", sans-serif; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: var(--bg-dark) url('images/bg-texture.jpg') center/cover no-repeat;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #fff; overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* LANDING */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#landing {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute; inset: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex; flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: var(--bg-dark) url('images/bg-texture.jpg') center/cover no-repeat;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index: 10;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#landing .icon { width: 80px; height: 80px; margin-bottom: 24px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#landing .icon img { width: 100%; height: 100%; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#landing .welcome {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1rem; color: var(--primary); margin-bottom: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#landing .headline {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 24px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#start-btn {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: var(--primary); color: #000;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: none; border-radius: 24px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 48px; padding: 0 32px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1rem; font-weight: 700; cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* APP */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#app { display: none; height: 100%; flex-direction: column; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* HEADER &amp; TABS */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.header {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: var(--primary);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flex-shrink: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: relative; z-index: 2;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.header-top {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex; justify-content: center; align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 0.5rem 0; gap: 0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.icon-container {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 40px; height: 40px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #fff; border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex; align-items: center; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.icon-container img { width: 24px; height: 24px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.header-title {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.25rem; font-weight: 600; color: var(--text-dark);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.tabs {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex; overflow-x: auto; overflow-y: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-bottom: 1px solid #000;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.tabs::-webkit-scrollbar { display: none; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.tab {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flex: 0 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 0.5rem 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 0.875rem; text-transform: none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: var(--text-dark); cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display:flex; align-items:center; justify-content:center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height:2.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.tab:first-child { margin-left:24px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.tab.active {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:#fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border:1px solid #000;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-bottom:none;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius:4px 4px 0 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-bottom:-1px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* WEEK PROGRESS */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.progress-wrapper {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:#fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flex-shrink:0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position:relative; z-index:1;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 2px 4px rgba(0,0,0,0.15);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.progress-header {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display:flex; justify-content:space-between; align-items:center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding:0.75rem 1rem 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.progress-label {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size:0.875rem; font-weight:600; color:#000;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.progress-count {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:var(--primary);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color:var(--text-dark);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size:0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding:2px 6px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius:12px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.progress-subheader {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display:flex; align-items:center; gap:0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding:0.25rem 1rem 0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color:#555; font-size:0.875rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.progress-subheader .separator { color:#555; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.progress-subheader i {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color:#555; display:inline-flex; align-items:center; line-height:1;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.progress-bar-container {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height:8px; background:#D9D9D9;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius:4px; margin:0 1rem 1rem; overflow:hidden;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.progress-bar {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:#000; height:100%; width:0%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition:width 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* CARDS */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.cards {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flex:1; overflow-y:auto;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding:32px 1rem 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:#fff; color:#000;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius:1rem; margin-bottom:1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>overflow:hidden;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow:0 2px 4px rgba(0,0,0,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card img {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width:100%; height:180px; object-fit:cover;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card-body { padding:0.75rem 1rem; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.badges { display:flex; gap:0.5rem; margin-bottom:0.5rem; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.badge-main {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:var(--primary); color:var(--text-dark);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding:0.25rem 0.5rem; border-radius:0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-transform:capitalize; font-size:0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.badge-secondary {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:#000; color:#fff;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding:0.25rem 0.5rem; border-radius:0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-transform:capitalize; font-size:0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card-title {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight:600; margin-bottom:0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-transform:capitalize;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.detail-line {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size:0.875rem; margin-bottom:0.25rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-check {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display:inline-flex; align-items:center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size:0.875rem; margin-top:0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.form-check input { margin-right:0.5rem; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* MODAL */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.modal-overlay {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position:fixed; inset:0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:rgba(0,0,0,0.3);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>backdrop-filter:blur(8px);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display:flex; align-items:center; justify-content:center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index:3;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.modal-overlay.hidden { display:none; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.modal {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:#fff; color:#000;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding:1.5rem; border-radius:1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align:center; max-width:280px; width:80%;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.modal button {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top:1rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background:var(--primary); color:#000;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border:none; border-radius:24px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding:0.5rem 1rem; font-weight:600;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor:pointer;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* REST &amp; FOOTER */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rest-day {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align:center; padding:2rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color:#888; font-size:1.125rem;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.footer {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>text-align:center; padding:0.5rem 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size:0.75rem; color:#888; flex-shrink:0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- LANDING --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="landing"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="icon"&gt;&lt;img src="images/icon-green.svg" alt="Green App Icon"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="welcome"&gt;Welcome to Gym&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="headline"&gt;Master Your Weekly Workouts&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button id="start-btn"&gt;Get Started&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- APP --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="app"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="header-top"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="icon-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;img src="images/icon-black.svg" alt="Black App Icon"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="header-title"&gt;Weekly Routine&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="tabs" id="tabs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="tab active" data-day="monday"&gt;Monday&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="tab" data-day="tuesday"&gt;Tuesday&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="tab" data-day="wednesday"&gt;Wednesday&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="tab" data-day="thursday"&gt;Thursday&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="tab" data-day="friday"&gt;Friday&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="tab" data-day="saturday"&gt;Saturday&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="tab" data-day="sunday"&gt;Sunday&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="progress-wrapper"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="progress-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="progress-label"&gt;Week Progress&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="progress-count" id="progress-count"&gt;0/0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="progress-subheader" id="progress-subheader"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span id="sub-title"&gt;Chest &amp;amp; Triceps&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="separator"&gt;|&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;i class="bi bi-clock"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span id="sub-time"&gt;60 min&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="progress-bar-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="progress-bar" id="progress-bar"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="cards" id="cards"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="footer"&gt;Gym App 2025 ©&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- WEEK COMPLETE MODAL --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="week-modal" class="modal-overlay hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="modal"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;🎉 Well done on completing a full workout week! 🎉&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button id="reset-week"&gt;Start New Week&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const routine = {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>monday: <span class="Apple-converted-space">  </span>{ title:'Chest &amp; Triceps', <span class="Apple-converted-space">    </span>time:'60 min',<span class="Apple-converted-space">    </span>exercises:[</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'chest-press-machine.jpg', main:'chest', sec:'triceps', name:'chest press machine', details:['* 4 Sets','* 8–12 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'pec-deck-cable-fly.jpg', <span class="Apple-converted-space">  </span>main:'chest', sec:'', <span class="Apple-converted-space">        </span>name:'pec deck / cable fly',<span class="Apple-converted-space">  </span>details:['* 3 Sets','* 10–12 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'dumbbell-bench-press.jpg', main:'chest', sec:'triceps', name:'dumbbell bench press', details:['* 3 Sets','* 8–10 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'triceps-pushdown.jpg', <span class="Apple-converted-space">    </span>main:'triceps',sec:'',<span class="Apple-converted-space">        </span>name:'triceps pushdown',<span class="Apple-converted-space">      </span>details:['* 3 Sets','* 10–12 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'overhead-extension.jpg', <span class="Apple-converted-space">  </span>main:'triceps',sec:'',<span class="Apple-converted-space">        </span>name:'overhead extension',<span class="Apple-converted-space">    </span>details:['* 2 Sets','* 8–10 Reps'] }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>]},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>tuesday:<span class="Apple-converted-space">  </span>{ title:'Back &amp; Biceps', <span class="Apple-converted-space">      </span>time:'60 min',<span class="Apple-converted-space">    </span>exercises:[</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'lat-pulldown-machine.jpg', main:'back', sec:'', <span class="Apple-converted-space">        </span>name:'lat pulldown machine', details:['* 4 Sets','* 8–12 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'seated-cable-row.jpg', <span class="Apple-converted-space">    </span>main:'back', sec:'', <span class="Apple-converted-space">        </span>name:'seated cable row', <span class="Apple-converted-space">    </span>details:['* 3 Sets','* 8–12 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'dumbbell-row.jpg', <span class="Apple-converted-space">        </span>main:'back', sec:'', <span class="Apple-converted-space">        </span>name:'dumbbell row', <span class="Apple-converted-space">        </span>details:['* 3 Sets','* 8–10 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'bicep-curl-machine.jpg', <span class="Apple-converted-space">  </span>main:'biceps',sec:'',<span class="Apple-converted-space">        </span>name:'bicep curl machine', <span class="Apple-converted-space">  </span>details:['* 3 Sets','* 10–12 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'face-pull-reverse-fly.jpg',main:'back', sec:'', <span class="Apple-converted-space">        </span>name:'face pull / reverse fly', details:['* 2 Sets','* 12–15 Reps'] }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>]},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>wednesday:{ title:'Legs &amp; Core', <span class="Apple-converted-space">        </span>time:'60 min',<span class="Apple-converted-space">    </span>exercises:[</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'leg-press-machine.jpg',<span class="Apple-converted-space">    </span>main:'legs', sec:'', <span class="Apple-converted-space">        </span>name:'leg press machine',<span class="Apple-converted-space">    </span>details:['* 4 Sets','* 8–12 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'hamstring-curl-machine.jpg',main:'legs', sec:'',<span class="Apple-converted-space">        </span>name:'hamstring curl machine', details:['* 3 Sets','* 10–12 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'adductor-abductor-machine.jpg',main:'legs',sec:'',<span class="Apple-converted-space">      </span>name:'adductor / abductor machines', details:['* 3 Sets','* 10–12 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'plank.jpg',<span class="Apple-converted-space">                </span>main:'core', sec:'', <span class="Apple-converted-space">        </span>name:'plank',<span class="Apple-converted-space">                </span>details:['* 60 Sec'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'russian-twists.jpg', <span class="Apple-converted-space">      </span>main:'core', sec:'', <span class="Apple-converted-space">        </span>name:'russian twists', <span class="Apple-converted-space">      </span>details:['* 30 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'leg-raises.jpg', <span class="Apple-converted-space">          </span>main:'core', sec:'', <span class="Apple-converted-space">        </span>name:'leg raises', <span class="Apple-converted-space">          </span>details:['* 15 Reps'] }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>]},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>thursday: { title:'Shoulders + Full Body',time:'60 min',<span class="Apple-converted-space">    </span>exercises:[</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'shoulder-press-machine.jpg',main:'shoulders',sec:'',<span class="Apple-converted-space">    </span>name:'shoulder press machine', details:['* 4 Sets','* 8–12 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'dumbbell-lateral-raise.jpg',main:'shoulders',sec:'',<span class="Apple-converted-space">    </span>name:'dumbbell lateral raise', details:['* 3 Sets','* 12 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'front-raise.jpg', <span class="Apple-converted-space">          </span>main:'shoulders',sec:'',<span class="Apple-converted-space">    </span>name:'front raise', <span class="Apple-converted-space">          </span>details:['* 2 Sets','* 12 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'cable-row-deadlift-row.jpg',main:'back',<span class="Apple-converted-space">      </span>sec:'',<span class="Apple-converted-space">    </span>name:'cable row / deadlift row', details:['* 3 Sets','* 10 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'plank.jpg',<span class="Apple-converted-space">                </span>main:'core',<span class="Apple-converted-space">      </span>sec:'',<span class="Apple-converted-space">    </span>name:'plank',<span class="Apple-converted-space">                </span>details:['* 1 Min'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'mountain-climbers.jpg',<span class="Apple-converted-space">    </span>main:'core',<span class="Apple-converted-space">      </span>sec:'',<span class="Apple-converted-space">    </span>name:'mountain climbers',<span class="Apple-converted-space">    </span>details:['* 30 Reps'] },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'russian-twists.jpg', <span class="Apple-converted-space">      </span>main:'core',<span class="Apple-converted-space">      </span>sec:'',<span class="Apple-converted-space">    </span>name:'russian twists', <span class="Apple-converted-space">      </span>details:['* 30 Reps'] }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>]},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>friday: <span class="Apple-converted-space">  </span>{ title:'Rest Day', <span class="Apple-converted-space">          </span>time:'—',<span class="Apple-converted-space">        </span>exercises:[] },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>saturday: { title:'Outdoor Cycling',<span class="Apple-converted-space">    </span>time:'60–90 min', exercises:[</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{ img:'cycling.jpg', <span class="Apple-converted-space">            </span>main:'cardio',<span class="Apple-converted-space">    </span>sec:'',<span class="Apple-converted-space">    </span>name:'outdoor cycling',<span class="Apple-converted-space">      </span>details:['* 13–15 Km','* Recovery Tip'] }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>]},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>sunday: <span class="Apple-converted-space">  </span>{ title:'Full Rest Day',<span class="Apple-converted-space">      </span>time:'—',<span class="Apple-converted-space">        </span>exercises:[] }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const totalExercises = Object.values(routine)</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.reduce((sum,day)=&gt;(sum + day.exercises.length),0);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const tabs<span class="Apple-converted-space">        </span>= document.querySelectorAll('.tab');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const cards <span class="Apple-converted-space">      </span>= document.getElementById('cards');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const subTitle<span class="Apple-converted-space">    </span>= document.getElementById('sub-title');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const subTime <span class="Apple-converted-space">    </span>= document.getElementById('sub-time');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const sep <span class="Apple-converted-space">        </span>= document.querySelector('.progress-subheader .separator');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const clockIcon <span class="Apple-converted-space">  </span>= document.querySelector('.progress-subheader i');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const progBar <span class="Apple-converted-space">    </span>= document.getElementById('progress-bar');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const progCnt <span class="Apple-converted-space">    </span>= document.getElementById('progress-count');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const landing <span class="Apple-converted-space">    </span>= document.getElementById('landing');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const app <span class="Apple-converted-space">        </span>= document.getElementById('app');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const startBtn<span class="Apple-converted-space">    </span>= document.getElementById('start-btn');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const weekModal <span class="Apple-converted-space">  </span>= document.getElementById('week-modal');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const resetWeek <span class="Apple-converted-space">  </span>= document.getElementById('reset-week');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>let initialRun = true;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1); }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function renderDay(day){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const dataObj = routine[day];</p>
+<p class="p1"><span class="Apple-converted-space">      </span>subTitle.textContent = dataObj.title;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>subTime.textContent<span class="Apple-converted-space">  </span>= dataObj.time;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// if rest day, hide only separator, clock, and time</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (dataObj.exercises.length === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sep.style.display <span class="Apple-converted-space">      </span>= 'none';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clockIcon.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>subTime.style.display <span class="Apple-converted-space">  </span>= 'none';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>sep.style.display <span class="Apple-converted-space">      </span>= '';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>clockIcon.style.display = '';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>subTime.style.display <span class="Apple-converted-space">  </span>= '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>cards.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (dataObj.exercises.length === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>cards.innerHTML = `&lt;div class="rest-day"&gt;${dataObj.title}&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>updateProgress();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>dataObj.exercises.forEach((ex,i)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const card = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>card.className='card';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>card.innerHTML=`</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;img src="images/${ex.img}" alt="${ex.name}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="card-body"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="badges"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>${ex.main?`&lt;div class="badge-main"&gt;${capitalize(ex.main)}&lt;/div&gt;`:''}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>${ex.sec?`&lt;div class="badge-secondary"&gt;${capitalize(ex.sec)}&lt;/div&gt;`:''}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="card-title"&gt;${capitalize(ex.name)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>${ex.details.map(d=&gt;`&lt;div class="detail-line"&gt;${d}&lt;/div&gt;`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="form-check"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="checkbox" id="${day}-ex-${i}"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>Completed</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>cards.appendChild(card);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cards.scrollTop = 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cards.querySelectorAll('input[type=checkbox]').forEach(cb=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>cb.checked = localStorage.getItem(cb.id)==='true';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>cb.addEventListener('change', ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>localStorage.setItem(cb.id, cb.checked);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>updateProgress();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>updateProgress();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function updateProgress(){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let done = 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>for (const day in routine) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>routine[day].exercises.forEach((_,i)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (localStorage.getItem(`${day}-ex-${i}`)==='true') done++;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// on first load, if already complete, clear all</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (initialRun &amp;&amp; done === totalExercises) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>for (const day in routine) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>routine[day].exercises.forEach((_,i)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">            </span>localStorage.removeItem(`${day}-ex-${i}`);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>done = 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>progCnt.textContent = `${done}/${totalExercises}`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>progBar.style.width = totalExercises ? (done/totalExercises*100)+'%' : '0%';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// only trigger on new completion</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!initialRun &amp;&amp; done === totalExercises) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>confetti({spread:70,origin:{y:0.6}});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>weekModal.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>initialRun = false;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>tabs.forEach(tab=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>tab.addEventListener('click', ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tabs.forEach(t=&gt;t.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tab.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>renderDay(tab.dataset.day);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>startBtn.addEventListener('click', ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>landing.style.display='none';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>app.style.display='flex';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>resetWeek.addEventListener('click', ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>for (const day in routine) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>routine[day].exercises.forEach((_,i)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">          </span>localStorage.removeItem(`${day}-ex-${i}`);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>weekModal.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>initialRun = true;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>// return to Monday</p>
+<p class="p1"><span class="Apple-converted-space">      </span>tabs.forEach(t=&gt;t.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const m = document.querySelector('.tab[data-day="monday"]');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>m.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderDay('monday');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// initial render</p>
+<p class="p1"><span class="Apple-converted-space">    </span>renderDay('monday');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
