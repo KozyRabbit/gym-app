@@ -60,8 +60,8 @@
     /* HEADER & TABS */
     .header {
       background: var(--primary);
-      flex-shrink: 0;
-      position: relative; z-index: 2;
+      flex-shrink: 0; position: relative; z-index: 2;
+      height: 119px;
     }
     .header-top {
       display: flex; align-items: center; justify-content: center;
@@ -72,13 +72,9 @@
       background: #fff; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
     }
-    .icon-container img {
-      width: 24px; height: 24px;
-    }
+    .icon-container img { width: 24px; height: 24px; }
     .header-title {
-      font-size: 20px; /* 20px */
-      font-weight: 600;
-      color: var(--text-dark);
+      font-size: 20px; font-weight: 600; color: var(--text-dark);
     }
     .tabs {
       display: flex; overflow-x: auto; overflow-y: hidden;
@@ -88,8 +84,7 @@
     .tab {
       flex: 0 0 auto;
       padding: 0.5rem 0.75rem;
-      font-size: 16px; /* 16px */
-      text-transform: none;
+      font-size: 16px;
       color: var(--text-dark);
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
@@ -106,8 +101,7 @@
 
     /* WEEK PROGRESS */
     .progress-wrapper {
-      background: #fff; flex-shrink: 0;
-      position: relative; z-index: 1;
+      background: #fff; flex-shrink: 0; position: relative; z-index: 1;
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
     .progress-header {
@@ -115,22 +109,18 @@
       padding: 0.75rem 1rem 0;
     }
     .progress-label {
-      font-size: 16px; /* 16px */
-      font-weight: 600;
-      color: #000;
+      font-size: 16px; font-weight: 600; color: #000;
     }
     .progress-count {
       background: var(--primary);
       color: var(--text-dark);
-      font-size: 12px; /* 12px */
-      font-weight: 500;
-      padding: 2px 6px;
-      border-radius: 12px;
+      font-size: 12px; font-weight: 500;
+      padding: 2px 6px; border-radius: 12px;
     }
     .progress-subheader {
       display: flex; align-items: center; gap: 0.5rem;
       padding: 0.25rem 1rem 0.5rem;
-      font-size: 12px; /* 12px */
+      font-size: 14px;   /* ← updated to 14px */
       font-weight: 500;
       color: #555;
     }
@@ -165,10 +155,8 @@
     .badges { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
     .badge-main,
     .badge-secondary {
-      font-size: 12px; /* 12px */
-      font-weight: 500;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.75rem;
+      font-size: 12px; font-weight: 500;
+      padding: 0.25rem 0.5rem; border-radius: 0.75rem;
       text-transform: capitalize;
     }
     .badge-main { background: var(--primary); color: var(--text-dark); }
@@ -178,7 +166,9 @@
       text-transform: capitalize;
     }
     .detail-line {
-      font-size: 0.875rem; margin-bottom: 0.25rem;
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+      font-weight: 500; /* medium */
     }
     .form-check {
       display: inline-flex; align-items: center;
@@ -239,13 +229,13 @@
         <div class="header-title">Weekly Routine</div>
       </div>
       <div class="tabs" id="tabs">
-        <div class="tab active"    data-day="monday">Monday</div>
-        <div class="tab"           data-day="tuesday">Tuesday</div>
-        <div class="tab"           data-day="wednesday">Wednesday</div>
-        <div class="tab"           data-day="thursday">Thursday</div>
-        <div class="tab"           data-day="friday">Friday</div>
-        <div class="tab"           data-day="saturday">Saturday</div>
-        <div class="tab"           data-day="sunday">Sunday</div>
+        <div class="tab active" data-day="monday">Monday</div>
+        <div class="tab" data-day="tuesday">Tuesday</div>
+        <div class="tab" data-day="wednesday">Wednesday</div>
+        <div class="tab" data-day="thursday">Thursday</div>
+        <div class="tab" data-day="friday">Friday</div>
+        <div class="tab" data-day="saturday">Saturday</div>
+        <div class="tab" data-day="sunday">Sunday</div>
       </div>
     </div>
 
@@ -281,39 +271,39 @@
     document.addEventListener('DOMContentLoaded', () => {
       const routine = {
         monday:   { title:'Chest & Triceps',     time:'60 min',    exercises:[
-          { img:'chest-press-machine.jpg', main:'chest', sec:'triceps', name:'chest press machine', details:['* 4 Sets','* 8–12 Reps'] },
-          { img:'pec-deck-cable-fly.jpg',   main:'chest', sec:'',         name:'pec deck / cable fly',  details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'dumbbell-bench-press.jpg', main:'chest', sec:'triceps', name:'dumbbell bench press', details:['* 3 Sets','* 8–10 Reps'] },
-          { img:'triceps-pushdown.jpg',     main:'triceps',sec:'',        name:'triceps pushdown',      details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'overhead-extension.jpg',   main:'triceps',sec:'',        name:'overhead extension',    details:['* 2 Sets','* 8–10 Reps'] }
+          { img:'chest-press-machine.jpg',     main:'chest',    sec:'triceps', name:'chest press machine',     details:['* 4 Sets','* 8–12 Reps'] },
+          { img:'pec-deck-cable-fly.jpg',       main:'chest',    sec:'',         name:'pec deck / cable fly',      details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'dumbbell-bench-press.jpg',     main:'chest',    sec:'triceps', name:'dumbbell bench press',     details:['* 3 Sets','* 8–10 Reps'] },
+          { img:'triceps-pushdown.jpg',         main:'triceps',  sec:'',         name:'triceps pushdown',         details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'overhead-extension.jpg',       main:'triceps',  sec:'',         name:'overhead extension',       details:['* 2 Sets','* 8–10 Reps'] }
         ]},
         tuesday:  { title:'Back & Biceps',       time:'60 min',    exercises:[
-          { img:'lat-pulldown-machine.jpg', main:'back', sec:'',         name:'lat pulldown machine', details:['* 4 Sets','* 8–12 Reps'] },
-          { img:'seated-cable-row.jpg',     main:'back', sec:'',         name:'seated cable row',     details:['* 3 Sets','* 8–12 Reps'] },
-          { img:'dumbbell-row.jpg',         main:'back', sec:'',         name:'dumbbell row',         details:['* 3 Sets','* 8–10 Reps'] },
-          { img:'bicep-curl-machine.jpg',   main:'biceps',sec:'',        name:'bicep curl machine',   details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'face-pull-reverse-fly.jpg',main:'back', sec:'',         name:'face pull / reverse fly', details:['* 2 Sets','* 12–15 Reps'] }
+          { img:'lat-pulldown-machine.jpg',     main:'back',     sec:'',         name:'lat pulldown machine',     details:['* 4 Sets','* 8–12 Reps'] },
+          { img:'seated-cable-row.jpg',         main:'back',     sec:'',         name:'seated cable row',         details:['* 3 Sets','* 8–12 Reps'] },
+          { img:'dumbbell-row.jpg',             main:'back',     sec:'',         name:'dumbbell row',             details:['* 3 Sets','* 8–10 Reps'] },
+          { img:'bicep-curl-machine.jpg',       main:'biceps',   sec:'',         name:'bicep curl machine',       details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'face-pull-reverse-fly.jpg',    main:'back',     sec:'',         name:'face pull / reverse fly',  details:['* 2 Sets','* 12–15 Reps'] }
         ]},
         wednesday:{ title:'Legs & Core',         time:'60 min',    exercises:[
-          { img:'leg-press-machine.jpg',    main:'legs', sec:'',         name:'leg press machine',    details:['* 4 Sets','* 8–12 Reps'] },
-          { img:'hamstring-curl-machine.jpg',main:'legs', sec:'',        name:'hamstring curl machine', details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'adductor-abductor-machine.jpg',main:'legs',sec:'',      name:'adductor / abductor machines', details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'plank.jpg',                main:'core', sec:'',         name:'plank',                details:['* 60 Sec'] },
-          { img:'russian-twists.jpg',       main:'core', sec:'',         name:'russian twists',       details:['* 30 Reps'] },
-          { img:'leg-raises.jpg',           main:'core', sec:'',         name:'leg raises',           details:['* 15 Reps'] }
+          { img:'leg-press-machine.jpg',        main:'legs',     sec:'',         name:'leg press machine',        details:['* 4 Sets','* 8–12 Reps'] },
+          { img:'hamstring-curl-machine.jpg',   main:'legs',     sec:'',         name:'hamstring curl machine',   details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'adductor-abductor-machine.jpg',main:'legs',     sec:'',         name:'adductor / abductor machines', details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'plank.jpg',                    main:'core',     sec:'',         name:'plank',                    details:['* 60 Sec'] },
+          { img:'russian-twists.jpg',           main:'core',     sec:'',         name:'russian twists',           details:['* 30 Reps'] },
+          { img:'leg-raises.jpg',               main:'core',     sec:'',         name:'leg raises',               details:['* 15 Reps'] }
         ]},
         thursday: { title:'Shoulders + Full Body',time:'60 min',    exercises:[
-          { img:'shoulder-press-machine.jpg',main:'shoulders',sec:'',    name:'shoulder press machine', details:['* 4 Sets','* 8–12 Reps'] },
-          { img:'dumbbell-lateral-raise.jpg',main:'shoulders',sec:'',    name:'dumbbell lateral raise', details:['* 3 Sets','* 12 Reps'] },
-          { img:'front-raise.jpg',           main:'shoulders',sec:'',    name:'front raise',           details:['* 2 Sets','* 12 Reps'] },
-          { img:'cable-row-deadlift-row.jpg',main:'back',      sec:'',    name:'cable row / deadlift row', details:['* 3 Sets','* 10 Reps'] },
-          { img:'plank.jpg',                main:'core',      sec:'',    name:'plank',                details:['* 1 Min'] },
-          { img:'mountain-climbers.jpg',    main:'core',      sec:'',    name:'mountain climbers',    details:['* 30 Reps'] },
-          { img:'russian-twists.jpg',       main:'core',      sec:'',    name:'russian twists',       details:['* 30 Reps'] }
+          { img:'shoulder-press-machine.jpg',   main:'shoulders',sec:'',        name:'shoulder press machine',   details:['* 4 Sets','* 8–12 Reps'] },
+          { img:'dumbbell-lateral-raise.jpg',   main:'shoulders',sec:'',        name:'dumbbell lateral raise',   details:['* 3 Sets','* 12 Reps'] },
+          { img:'front-raise.jpg',               main:'shoulders',sec:'',        name:'front raise',              details:['* 2 Sets','* 12 Reps'] },
+          { img:'cable-row-deadlift-row.jpg',   main:'back',     sec:'',         name:'cable row / deadlift row', details:['* 3 Sets','* 10 Reps'] },
+          { img:'plank.jpg',                    main:'core',     sec:'',         name:'plank',                    details:['* 1 Min'] },
+          { img:'mountain-climbers.jpg',        main:'core',     sec:'',         name:'mountain climbers',        details:['* 30 Reps'] },
+          { img:'russian-twists.jpg',           main:'core',     sec:'',         name:'russian twists',           details:['* 30 Reps'] }
         ]},
         friday:   { title:'Rest Day',           time:'—',        exercises:[] },
         saturday: { title:'Outdoor Cycling',    time:'60–90 min', exercises:[
-          { img:'cycling.jpg',             main:'cardio',    sec:'',    name:'outdoor cycling',      details:['* 13–15 Km','* Recovery Tip'] }
+          { img:'cycling.jpg',                 main:'cardio',   sec:'',        name:'outdoor cycling',         details:['* 13–15 Km','* Recovery Tip'] }
         ]},
         sunday:   { title:'Full Rest Day',      time:'—',        exercises:[] }
       };
@@ -431,9 +421,7 @@
       });
 
       // Show app on Get Started
-      console.log('Found startBtn:', startBtn);
       startBtn.addEventListener('click', () => {
-        console.log('Get Started clicked');
         landing.style.display = 'none';
         app.style.display     = 'flex';
       });
