@@ -79,6 +79,7 @@
     .tabs {
       display: flex; overflow-x: auto; overflow-y: hidden;
       border-bottom: 1px solid #000;
+      margin-bottom: 32px;  /* Added 32px vertical space below tabs */
     }
     .tabs::-webkit-scrollbar { display: none; }
     .tab {
@@ -120,7 +121,7 @@
     .progress-subheader {
       display: flex; align-items: center; gap: 0.5rem;
       padding: 0.25rem 1rem 0.5rem;
-      font-size: 14px;   /* ← updated to 14px */
+      font-size: 14px;
       font-weight: 500;
       color: #555;
     }
@@ -166,9 +167,8 @@
       text-transform: capitalize;
     }
     .detail-line {
-      font-size: 0.875rem;
-      margin-bottom: 0.25rem;
-      font-weight: 500; /* medium */
+      font-size: 0.875rem; margin-bottom: 0.25rem;
+      font-weight: 500;
     }
     .form-check {
       display: inline-flex; align-items: center;
@@ -295,7 +295,7 @@
         thursday: { title:'Shoulders + Full Body',time:'60 min',    exercises:[
           { img:'shoulder-press-machine.jpg',   main:'shoulders',sec:'',        name:'shoulder press machine',   details:['* 4 Sets','* 8–12 Reps'] },
           { img:'dumbbell-lateral-raise.jpg',   main:'shoulders',sec:'',        name:'dumbbell lateral raise',   details:['* 3 Sets','* 12 Reps'] },
-          { img:'front-raise.jpg',               main:'shoulders',sec:'',        name:'front raise',              details:['* 2 Sets','* 12 Reps'] },
+          { img:'frontend-raise.jpg',            main:'shoulders',sec:'',        name:'front raise',              details:['* 2 Sets','* 12 Reps'] },
           { img:'cable-row-deadlift-row.jpg',   main:'back',     sec:'',         name:'cable row / deadlift row', details:['* 3 Sets','* 10 Reps'] },
           { img:'plank.jpg',                    main:'core',     sec:'',         name:'plank',                    details:['* 1 Min'] },
           { img:'mountain-climbers.jpg',        main:'core',     sec:'',         name:'mountain climbers',        details:['* 30 Reps'] },
