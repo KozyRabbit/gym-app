@@ -78,7 +78,7 @@
     .tabs {
       display: flex; overflow-x: auto; overflow-y: hidden;
       border-bottom: 1px solid #000;
-      margin-top: 32px;    /* 32px gap above tabs */
+      margin-top: 16px;    /* ← updated to 16px gap above tabs */
       margin-bottom: 0;    /* flush against progress */
     }
     .tabs::-webkit-scrollbar { display: none; }
@@ -121,7 +121,7 @@
     .progress-subheader {
       display: flex; align-items: center; gap: 0.5rem;
       padding: 0.25rem 1rem 0.5rem;
-      font-size: 14px; /* now 14px */
+      font-size: 14px; /* exercise type & time at 14px */
       font-weight: 500;
       color: #555;
     }
@@ -261,7 +261,7 @@
 
   <!-- WEEK COMPLETE MODAL -->
   <div id="week-modal" class="modal-overlay hidden">
-    <div class="modal">
+    <div class("modal">
       <p>🎉 Well done on completing a full workout week! 🎉</p>
       <button id="reset-week">Start New Week</button>
     </div>
