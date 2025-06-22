@@ -1,448 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gym App</title>
+/* ─────────── MODAL UPDATED STYLES ─────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
 
-  <!-- Bootstrap 5 CSS -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
-  <!-- Bootstrap Icons -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
-    rel="stylesheet"
-  />
-  <!-- Canvas Confetti -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+.modal-overlay.hidden {
+  display: none;
+}
 
-  <style>
-    :root {
-      --primary: #54FD1B;
-      --text-dark: #000;
-      --bg-dark: #1a1a1a;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; font-family: "Helvetica Neue", sans-serif; }
-    body {
-      background: var(--bg-dark) url('images/bg-texture.jpg') center/cover no-repeat;
-      color: #fff; overflow: hidden;
-    }
+.modal {
+  background: #fff;
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+  max-width: 320px;
+  width: 90%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
 
-    /* LANDING */
-    #landing {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      background: var(--bg-dark) url('images/bg-texture.jpg') center/cover no-repeat;
-      z-index: 10;
-    }
-    #landing .icon { width: 80px; height: 80px; margin-bottom: 24px; }
-    #landing .icon img { width: 100%; height: 100%; }
-    #landing .welcome {
-      font-size: 1rem; color: var(--primary); margin-bottom: 8px;
-    }
-    #landing .headline {
-      font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 24px;
-    }
-    #start-btn {
-      background: var(--primary); color: #000;
-      border: none; border-radius: 24px;
-      height: 48px; padding: 0 32px;
-      font-size: 1rem; font-weight: 700; cursor: pointer;
-    }
+.modal-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+}
 
-    /* APP */
-    #app { display: none; height: 100%; flex-direction: column; }
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 8px;
+}
 
-    /* HEADER & TABS */
-    .header {
-      background: var(--primary);
-      flex-shrink: 0; position: relative; z-index: 2;
-    }
-    .header-top {
-      display: flex; align-items: center; justify-content: center;
-      padding: 0.5rem 0; gap: 0.5rem;
-    }
-    .icon-container {
-      width: 40px; height: 40px;
-      background: #fff; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .icon-container img { width: 24px; height: 24px; }
-    .header-title {
-      font-size: 20px; font-weight: 600; color: var(--text-dark);
-    }
-    .tabs {
-      display: flex; overflow-x: auto; overflow-y: hidden;
-      border-bottom: 1px solid #000;
-      margin-top: 16px;    /* ← updated to 16px gap above tabs */
-      margin-bottom: 0;    /* flush against progress */
-    }
-    .tabs::-webkit-scrollbar { display: none; }
-    .tab {
-      flex: 0 0 auto;
-      padding: 0.5rem 0.75rem;
-      font-size: 16px;
-      color: var(--text-dark);
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      height: 2.5rem;
-    }
-    .tab:first-child { margin-left: 24px; }
-    .tab.active {
-      background: #fff;
-      border: 1px solid #000;
-      border-bottom: none;
-      border-radius: 4px 4px 0 0;
-      margin-bottom: -1px;
-    }
+.modal-text {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
 
-    /* WEEK PROGRESS */
-    .progress-wrapper {
-      background: #fff; flex-shrink: 0; position: relative; z-index: 1;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-    }
-    .progress-header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 0.75rem 1rem 0;
-    }
-    .progress-label {
-      font-size: 16px; font-weight: 600; color: #000;
-    }
-    .progress-count {
-      background: var(--primary);
-      color: var(--text-dark);
-      font-size: 12px; font-weight: 500;
-      padding: 2px 6px; border-radius: 12px;
-    }
-    .progress-subheader {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.25rem 1rem 0.5rem;
-      font-size: 14px; /* exercise type & time at 14px */
-      font-weight: 500;
-      color: #555;
-    }
-    .progress-subheader .separator { color: #555; }
-    .progress-subheader i {
-      color: #555; display: inline-flex; align-items: center; line-height: 1;
-    }
-    .progress-bar-container {
-      height: 8px; background: #D9D9D9;
-      border-radius: 4px; margin: 0 1rem 1rem; overflow: hidden;
-    }
-    .progress-bar {
-      background: #000; height: 100%; width: 0%;
-      transition: width 0.3s ease;
-    }
-
-    /* CARDS */
-    .cards {
-      flex: 1; overflow-y: auto;
-      padding: 32px 1rem 1rem;
-    }
-    .card {
-      background: #fff; color: #000;
-      border-radius: 1rem; margin-bottom: 1rem;
-      overflow: hidden;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .card img {
-      width: 100%; height: 180px; object-fit: cover;
-    }
-    .card-body { padding: 0.75rem 1rem; }
-    .badges { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
-    .badge-main,
-    .badge-secondary {
-      font-size: 12px; font-weight: 500;
-      padding: 0.25rem 0.5rem; border-radius: 0.75rem;
-      text-transform: capitalize;
-    }
-    .badge-main { background: var(--primary); color: var(--text-dark); }
-    .badge-secondary { background: #000; color: #fff; }
-    .card-title {
-      font-weight: 600; margin-bottom: 0.5rem;
-      text-transform: capitalize;
-    }
-    .detail-line {
-      font-size: 0.875rem; margin-bottom: 0.25rem;
-      font-weight: 500;
-    }
-    .form-check {
-      display: inline-flex; align-items: center;
-      font-size: 0.875rem; margin-top: 0.5rem;
-    }
-    .form-check input { margin-right: 0.5rem; }
-
-    /* MODAL */
-    .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.3);
-      backdrop-filter: blur(8px);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 3;
-    }
-    .modal-overlay.hidden { display: none; }
-    .modal {
-      background: #fff; color: #000;
-      padding: 1.5rem; border-radius: 1rem;
-      text-align: center; max-width: 280px; width: 80%;
-    }
-    .modal button {
-      margin-top: 1rem;
-      background: var(--primary); color: #000;
-      border: none; border-radius: 24px;
-      padding: 0.5rem 1rem; font-weight: 600;
-      cursor: pointer;
-    }
-
-    /* REST & FOOTER */
-    .rest-day {
-      text-align: center; padding: 2rem;
-      color: #888; font-size: 1.125rem;
-    }
-    .footer {
-      text-align: center; padding: 0.5rem 0;
-      font-size: 0.75rem; color: #888; flex-shrink: 0;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- LANDING -->
-  <div id="landing">
-    <div class="icon"><img src="images/icon-green.svg" alt="Green App Icon"></div>
-    <div class="welcome">Welcome to Gym</div>
-    <div class="headline">Master Your Weekly Workouts</div>
-    <button id="start-btn">Get Started</button>
-  </div>
-
-  <!-- APP -->
-  <div id="app">
-    <div class="header">
-      <div class="header-top">
-        <div class="icon-container">
-          <img src="images/icon-black.svg" alt="Black App Icon">
-        </div>
-        <div class="header-title">Weekly Routine</div>
-      </div>
-      <div class="tabs" id="tabs">
-        <div class="tab active" data-day="monday">Monday</div>
-        <div class="tab" data-day="tuesday">Tuesday</div>
-        <div class="tab" data-day="wednesday">Wednesday</div>
-        <div class="tab" data-day="thursday">Thursday</div>
-        <div class="tab" data-day="friday">Friday</div>
-        <div class="tab" data-day="saturday">Saturday</div>
-        <div class="tab" data-day="sunday">Sunday</div>
-      </div>
-    </div>
-
-    <div class="progress-wrapper">
-      <div class="progress-header">
-        <div class="progress-label">Week Progress</div>
-        <div class="progress-count" id="progress-count">0/0</div>
-      </div>
-      <div class="progress-subheader">
-        <span id="sub-title">Chest &amp; Triceps</span>
-        <span class="separator">|</span>
-        <i class="bi bi-clock"></i>
-        <span id="sub-time">60 min</span>
-      </div>
-      <div class="progress-bar-container">
-        <div class="progress-bar" id="progress-bar"></div>
-      </div>
-    </div>
-
-    <div class="cards" id="cards"></div>
-    <div class="footer">Gym App 2025 ©</div>
-  </div>
-
-  <!-- WEEK COMPLETE MODAL -->
-  <div id="week-modal" class="modal-overlay hidden">
-    <div class("modal">
-      <p>🎉 Well done on completing a full workout week! 🎉</p>
-      <button id="reset-week">Start New Week</button>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const routine = {
-        monday:   { title:'Chest & Triceps',     time:'60 min',    exercises:[
-          { img:'chest-press-machine.jpg', main:'chest', sec:'triceps', name:'chest press machine', details:['* 4 Sets','* 8–12 Reps'] },
-          { img:'pec-deck-cable-fly.jpg',   main:'chest', sec:'',         name:'pec deck / cable fly',  details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'dumbbell-bench-press.jpg', main:'chest', sec:'triceps', name:'dumbbell bench press', details:['* 3 Sets','* 8–10 Reps'] },
-          { img:'triceps-pushdown.jpg',     main:'triceps',sec:'',        name:'triceps pushdown',      details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'overhead-extension.jpg',   main:'triceps',sec:'',        name:'overhead extension',    details:['* 2 Sets','* 8–10 Reps'] }
-        ]},
-        tuesday:  { title:'Back & Biceps',       time:'60 min',    exercises:[
-          { img:'lat-pulldown-machine.jpg', main:'back', sec:'',         name:'lat pulldown machine', details:['* 4 Sets','* 8–12 Reps'] },
-          { img:'seated-cable-row.jpg',     main:'back', sec:'',         name:'seated cable row',     details:['* 3 Sets','* 8–12 Reps'] },
-          { img:'dumbbell-row.jpg',         main:'back', sec:'',         name:'dumbbell row',         details:['* 3 Sets','* 8–10 Reps'] },
-          { img:'bicep-curl-machine.jpg',   main:'biceps',sec:'',        name:'bicep curl machine',   details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'face-pull-reverse-fly.jpg',main:'back', sec:'',         name:'face pull / reverse fly', details:['* 2 Sets','* 12–15 Reps'] }
-        ]},
-        wednesday:{ title:'Legs & Core',         time:'60 min',    exercises:[
-          { img:'leg-press-machine.jpg',    main:'legs', sec:'',         name:'leg press machine',    details:['* 4 Sets','* 8–12 Reps'] },
-          { img:'hamstring-curl-machine.jpg',main:'legs', sec:'',        name:'hamstring curl machine', details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'adductor-abductor-machine.jpg',main:'legs',sec:'',      name:'adductor / abductor machines', details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'plank.jpg',                main:'core', sec:'',         name:'plank',                details:['* 60 Sec'] },
-          { img:'russian-twists.jpg',       main:'core', sec:'',         name:'russian twists',       details:['* 30 Reps'] },
-          { img:'leg-raises.jpg',           main:'core', sec:'',         name:'leg raises',           details:['* 15 Reps'] }
-        ]},
-        thursday: { title:'Shoulders + Full Body',time:'60 min',    exercises:[
-          { img:'shoulder-press-machine.jpg',main:'shoulders',sec:'',    name:'shoulder press machine', details:['* 4 Sets','* 8–12 Reps'] },
-          { img:'dumbbell-lateral-raise.jpg',main:'shoulders',sec:'',    name:'dumbbell lateral raise', details:['* 3 Sets','* 12 Reps'] },
-          { img:'front-raise.jpg',           main:'shoulders',sec:'',    name:'front raise',           details:['* 2 Sets','* 12 Reps'] },
-          { img:'cable-row-deadlift-row.jpg',main:'back',      sec:'',    name:'cable row / deadlift row', details:['* 3 Sets','* 10 Reps'] },
-          { img:'plank.jpg',                main:'core',      sec:'',    name:'plank',                details:['* 1 Min'] },
-          { img:'mountain-climbers.jpg',    main:'core',      sec:'',    name:'mountain climbers',    details:['* 30 Reps'] },
-          { img:'russian-twists.jpg',       main:'core',      sec:'',    name:'russian twists',       details:['* 30 Reps'] }
-        ]},
-        friday:   { title:'Rest Day',           time:'—',        exercises:[] },
-        saturday: { title:'Outdoor Cycling',    time:'60–90 min', exercises:[
-          { img:'cycling.jpg',             main:'cardio',    sec:'',    name:'outdoor cycling',      details:['* 13–15 Km','* Recovery Tip'] }
-        ]},
-        sunday:   { title:'Full Rest Day',      time:'—',        exercises:[] }
-      };
-
-      const totalExercises = Object.values(routine)
-        .reduce((sum, day) => sum + day.exercises.length, 0);
-
-      const tabs      = document.querySelectorAll('.tab');
-      const cards     = document.getElementById('cards');
-      const subTitle  = document.getElementById('sub-title');
-      const subTime   = document.getElementById('sub-time');
-      const sep       = document.querySelector('.progress-subheader .separator');
-      const clockIcon = document.querySelector('.progress-subheader i');
-      const progBar   = document.getElementById('progress-bar');
-      const progCnt   = document.getElementById('progress-count');
-      const landing   = document.getElementById('landing');
-      const app       = document.getElementById('app');
-      const startBtn  = document.getElementById('start-btn');
-      const weekModal = document.getElementById('week-modal');
-      const resetWeek = document.getElementById('reset-week');
-
-      let initialRun = true;
-
-      function capitalize(s) {
-        return s.charAt(0).toUpperCase() + s.slice(1);
-      }
-
-      function renderDay(day) {
-        const dataObj = routine[day];
-        subTitle.textContent = dataObj.title;
-        subTime.textContent = dataObj.time;
-
-        if (dataObj.exercises.length === 0) {
-          sep.style.display = 'none';
-          clockIcon.style.display = 'none';
-          subTime.style.display = 'none';
-        } else {
-          sep.style.display = '';
-          clockIcon.style.display = '';
-          subTime.style.display = '';
-        }
-
-        cards.innerHTML = '';
-        if (dataObj.exercises.length === 0) {
-          cards.innerHTML = `<div class="rest-day">${dataObj.title}</div>`;
-          updateProgress();
-          return;
-        }
-        dataObj.exercises.forEach((ex, i) => {
-          const card = document.createElement('div');
-          card.className = 'card';
-          card.innerHTML = `
-            <img src="images/${ex.img}" alt="${ex.name}">
-            <div class="card-body">
-              <div class="badges">
-                ${ex.main ? `<div class="badge-main">${capitalize(ex.main)}</div>` : ''}
-                ${ex.sec  ? `<div class="badge-secondary">${capitalize(ex.sec)}</div>` : ''}
-              </div>
-              <div class="card-title">${capitalize(ex.name)}</div>
-              ${ex.details.map(d => `<div class="detail-line">${d}</div>`).join('')}
-              <label class="form-check">
-                <input type="checkbox" id="${day}-ex-${i}">
-                Completed
-              </label>
-            </div>`;
-          cards.appendChild(card);
-        });
-
-        cards.scrollTop = 0;
-        cards.querySelectorAll('input[type=checkbox]').forEach(cb => {
-          cb.checked = localStorage.getItem(cb.id) === 'true';
-          cb.addEventListener('change', () => {
-            localStorage.setItem(cb.id, cb.checked);
-            updateProgress();
-          });
-        });
-        updateProgress();
-      }
-
-      function updateProgress() {
-        let done = 0;
-        for (const day in routine) {
-          routine[day].exercises.forEach((_, i) => {
-            if (localStorage.getItem(`${day}-ex-${i}`) === 'true') done++;
-          });
-        }
-
-        if (initialRun && done === totalExercises) {
-          for (const day in routine) {
-            routine[day].exercises.forEach((_, i) => {
-              localStorage.removeItem(`${day}-ex-${i}`);
-            });
-          }
-          done = 0;
-        }
-
-        progCnt.textContent = `${done}/${totalExercises}`;
-        progBar.style.width = totalExercises ? (done / totalExercises * 100) + '%' : '0%';
-
-        if (!initialRun && done === totalExercises) {
-          confetti({ spread: 70, origin: { y: 0.6 } });
-          weekModal.classList.remove('hidden');
-        }
-
-        initialRun = false;
-      }
-
-      // Tab switching
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          renderDay(tab.dataset.day);
-        });
-      });
-
-      // Show app on Get Started
-      startBtn.addEventListener('click', () => {
-        landing.style.display = 'none';
-        app.style.display     = 'flex';
-      });
-
-      // Reset week
-      resetWeek.addEventListener('click', () => {
-        for (const day in routine) {
-          routine[day].exercises.forEach((_, i) => {
-            localStorage.removeItem(`${day}-ex-${i}`);
-          });
-        }
-        weekModal.classList.add('hidden');
-        initialRun = true;
-        tabs.forEach(t => t.classList.remove('active'));
-        document.querySelector('.tab[data-day="monday"]').classList.add('active');
-        renderDay('monday');
-      });
-
-      // Initial render
-      renderDay('monday');
-    });
-  </script>
-</body>
-</html>
+.modal button {
+  background: var(--primary);
+  color: #000;
+  border: none;
+  border-radius: 24px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
