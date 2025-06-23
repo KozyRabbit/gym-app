@@ -66,16 +66,15 @@
       display: flex; align-items: center; justify-content: center;
       padding: 0.5rem 0; gap: 0.5rem;
     }
-    /* UPDATED ICON SIZE */
     .icon-container {
-      width: 48px;    /* was 40px */
-      height: 48px;   /* was 40px */
+      width: 48px;
+      height: 48px;
       background: #fff; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
     }
     .icon-container img {
-      width: 32px;   /* was 24px */
-      height: 32px;  /* was 24px */
+      width: 32px;
+      height: 32px;
     }
     .header-title {
       font-size: 20px; font-weight: 600; color: var(--text-dark);
@@ -204,9 +203,8 @@
       font-size: 1rem; color: #333; margin-bottom: 1.5rem;
     }
     .modal button {
-      background: var(--primary); color: #000;
-      border: none; border-radius: 24px;
-      padding: 0.5rem 1.5rem; font-weight: 600;
+      background: var(--primary); color: #000; border: none;
+      border-radius: 24px; padding: 0.5rem 1.5rem; font-weight: 600;
       cursor: pointer;
     }
 
@@ -375,8 +373,8 @@
             <img src="images/${ex.img}" alt="${ex.name}">
             <div class="card-body">
               <div class="badges">
-                ${ex.main ? `<div class="badge-main">${capitalize(ex.main)}</div>` : ''}
-                ${ex.sec  ? `<div class="badge-secondary">${capitalize(ex.sec)}</div>` : ''}
+                ${ex.main ? `<div class="badge-main">${capitalize(ex.main)}</div>` : ''}  
+                ${ex.sec  ? `<div class="badge-secondary">${capitalize(ex.sec)}</div>` : ''}  
               </div>
               <div class="card-title">${capitalize(ex.name)}</div>
               ${ex.details.map(d => `<div class="detail-line">${d}</div>`).join('')}
