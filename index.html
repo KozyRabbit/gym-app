@@ -228,7 +228,6 @@
     <div class="header">
       <div class="header-top">
         <div class="icon-container">
-          <!-- now pointing at icon-black.svg -->
           <img src="images/icon-black.svg" alt="App Icon">
         </div>
         <div class="header-title">Weekly Routine</div>
@@ -269,7 +268,9 @@
     <div class="modal">
       <img src="images/celebrate-icon.svg" alt="Celebrate!" class="modal-icon" />
       <div class="modal-title">Congratulations!</div>
-      <div class="modal-text">You’ve completed a full workout week!</div>
+      <div class="modal-text">
+        You’ve completed a full workout week!
+      </div>
       <button id="reset-week">Reset week</button>
     </div>
   </div>
@@ -331,7 +332,8 @@
       const weekModal = document.getElementById('week-modal');
       const resetWeek = document.getElementById('reset-week');
 
-      let initialRun = true;
+      // new flag
+      let modalShown = false;
 
       function capitalize(s) {
         return s.charAt(0).toUpperCase() + s.slice(1);
@@ -342,7 +344,7 @@
         subTitle.textContent = title;
         subTime.textContent  = time;
 
-        if (exercises.length === 0) {
+        if (!exercises.length) {
           sep.style.display       = 'none';
           clockIcon.style.display = 'none';
           subTime.style.display   = 'none';
@@ -403,12 +405,12 @@
           ? (done / totalExercises * 100) + '%'
           : '0%';
 
-        // only show after initial load
-        if (!initialRun && done === totalExercises) {
+        // show once when fully done
+        if (done === totalExercises && totalExercises > 0 && !modalShown) {
+          modalShown = true;
           confetti({ spread: 70, origin: { y: 0.6 } });
           weekModal.classList.remove('hidden');
         }
-        initialRun = false;
       }
 
       // Tab switching
@@ -428,17 +430,16 @@
 
       // Reset week (modal button)
       resetWeek.addEventListener('click', () => {
-        // clear all checkboxes
+        // clear all
         Object.keys(routine).forEach(day => {
           routine[day].exercises.forEach((_, i) =>
             localStorage.removeItem(`${day}-ex-${i}`)
           );
         });
-        // hide modal + app, show landing
+        modalShown = false;             // reset trigger
         weekModal.classList.add('hidden');
         app.style.display    = 'none';
         landing.style.display= 'flex';
-        initialRun = true;    // reset flag
       });
 
       // Initial render of Monday
