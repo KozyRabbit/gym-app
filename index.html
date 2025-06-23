@@ -275,7 +275,7 @@
         <span id="sub-time">60 min</span>
       </div>
       <div class="progress-bar-container">
-        <div class="progress-bar" id="progress-bar"></div>  
+        <div class="progress-bar" id="progress-bar"></div>
       </div>
     </div>
 
@@ -336,22 +336,21 @@
         sunday:   { title:'Full Rest Day', time:'—',        exercises:[] }
       };
 
-      const totalExercises = Object.values(routine)
-        .reduce((sum, day) => sum + day.exercises.length, 0);
+      const totalExercises = Object.values(routine).reduce((sum, day) => sum + day.exercises.length, 0);
 
-      const tabs = document.querySelectorAll('.tab');
-      const cards = document.getElementById('cards');
-      const subTitle = document.getElementById('sub-title');
-      const subTime = document.getElementById('sub-time');
-      const sep = document.querySelector('.progress-subheader .separator');
-      const clockIcon = document.querySelector('.progress-subheader i');
-      const progBar = document.getElementById('progress-bar');
-      const progCnt = document.getElementById('progress-count');
-      const landing = document.getElementById('landing');
-      const app = document.getElementById('app');
-      const startBtn = document.getElementById('start-btn');
-      const weekModal = document.getElementById('week-modal');
-      const resetWeek = document.getElementById('reset-week');
+      const tabs       = document.querySelectorAll('.tab');
+      const cards      = document.getElementById('cards');
+      const subTitle   = document.getElementById('sub-title');
+      const subTime    = document.getElementById('sub-time');
+      const sep        = document.querySelector('.progress-subheader .separator');
+      const clockIcon  = document.querySelector('.progress-subheader i');
+      const progBar    = document.getElementById('progress-bar');
+      const progCnt    = document.getElementById('progress-count');
+      const landing    = document.getElementById('landing');
+      const app        = document.getElementById('app');
+      const startBtn   = document.getElementById('start-btn');
+      const weekModal  = document.getElementById('week-modal');
+      const resetWeek  = document.getElementById('reset-week');
 
       let initialRun = true;
 
@@ -362,16 +361,16 @@
       function renderDay(day) {
         const dataObj = routine[day];
         subTitle.textContent = dataObj.title;
-        subTime.textContent = dataObj.time;
+        subTime.textContent  = dataObj.time;
 
         if (dataObj.exercises.length === 0) {
-          sep.style.display = 'none';
+          sep.style.display       = 'none';
           clockIcon.style.display = 'none';
-          subTime.style.display = 'none';
+          subTime.style.display   = 'none';
         } else {
-          sep.style.display = '';
+          sep.style.display       = '';
           clockIcon.style.display = '';
-          subTime.style.display = '';
+          subTime.style.display   = '';
         }
 
         cards.innerHTML = '';
@@ -380,6 +379,7 @@
           updateProgress();
           return;
         }
+
         dataObj.exercises.forEach((ex, i) => {
           const card = document.createElement('div');
           card.className = 'card';
@@ -418,26 +418,18 @@
             if (localStorage.getItem(`${day}-ex-${i}`) === 'true') done++;
           });
         }
-
         if (initialRun && done === totalExercises) {
           for (const day in routine) {
-            routine[day].exercises.forEach((_, i) => {
-              localStorage.removeItem(`${day}-ex-${i}`);
-            });
+            routine[day].exercises.forEach((_, i) => localStorage.removeItem(`${day}-ex-${i}`));
           }
           done = 0;
         }
-
         progCnt.textContent = `${done}/${totalExercises}`;
-        progBar.style.width = totalExercises
-          ? (done / totalExercises * 100) + '%'
-          : '0%';  // fixed fallback
-
+        progBar.style.width = totalExercises ? (done / totalExercises * 100) + '%' : '0%';
         if (!initialRun && done === totalExercises) {
           confetti({ spread: 70, origin: { y: 0.6 } });
           weekModal.classList.remove('hidden');
         }
-
         initialRun = false;
       }
 
