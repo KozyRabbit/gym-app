@@ -275,7 +275,7 @@
         <span id="sub-time">60 min</span>
       </div>
       <div class="progress-bar-container">
-        <div class="progress-bar" id="progress-bar"></div>
+        <div class="progress-bar" id="progress-bar"></div>  
       </div>
     </div>
 
@@ -298,58 +298,58 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const routine = {
-        monday:   { title:'Chest & Triceps',     time:'60 min',    exercises:[
+        monday:   { title:'Chest & Triceps', time:'60 min', exercises:[
           { img:'chest-press-machine.jpg', main:'chest', sec:'triceps', name:'chest press machine', details:['* 4 Sets','* 8–12 Reps'] },
           { img:'pec-deck-cable-fly.jpg',   main:'chest', sec:'',         name:'pec deck / cable fly',  details:['* 3 Sets','* 10–12 Reps'] },
           { img:'dumbbell-bench-press.jpg', main:'chest', sec:'triceps', name:'dumbbell bench press', details:['* 3 Sets','* 8–10 Reps'] },
           { img:'triceps-pushdown.jpg',     main:'triceps',sec:'',        name:'triceps pushdown',      details:['* 3 Sets','* 10–12 Reps'] },
           { img:'overhead-extension.jpg',   main:'triceps',sec:'',        name:'overhead extension',    details:['* 2 Sets','* 8–10 Reps'] }
         ]},
-        tuesday:  { title:'Back & Biceps',       time:'60 min',    exercises:[
-          { img:'lat-pulldown-machine.jpg', main:'back', sec:'',         name:'lat pulldown machine', details:['* 4 Sets','* 8–12 Reps'] },
-          { img:'seated-cable-row.jpg',     main:'back', sec:'',         name:'seated cable row',     details:['* 3 Sets','* 8–12 Reps'] },
-          { img:'dumbbell-row.jpg',         main:'back', sec:'',         name:'dumbbell row',         details:['* 3 Sets','* 8–10 Reps'] },
-          { img:'bicep-curl-machine.jpg',   main:'biceps',sec:'',        name:'bicep curl machine',   details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'face-pull-reverse-fly.jpg',main:'back', sec:'',         name:'face pull / reverse fly', details:['* 2 Sets','* 12–15 Reps'] }
+        tuesday:  { title:'Back & Biceps', time:'60 min', exercises:[
+          { img:'lat-pulldown-machine.jpg', main:'back',  sec:'', name:'lat pulldown machine', details:['* 4 Sets','* 8–12 Reps'] },
+          { img:'seated-cable-row.jpg',     main:'back',  sec:'', name:'seated cable row',     details:['* 3 Sets','* 8–12 Reps'] },
+          { img:'dumbbell-row.jpg',         main:'back',  sec:'', name:'dumbbell row',         details:['* 3 Sets','* 8–10 Reps'] },
+          { img:'bicep-curl-machine.jpg',   main:'biceps',sec:'', name:'bicep curl machine',   details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'face-pull-reverse-fly.jpg',main:'back',  sec:'', name:'face pull / reverse fly', details:['* 2 Sets','* 12–15 Reps'] }
         ]},
-        wednesday:{ title:'Legs & Core',         time:'60 min',    exercises:[
-          { img:'leg-press-machine.jpg',    main:'legs', sec:'',         name:'leg press machine',    details:['* 4 Sets','* 8–12 Reps'] },
-          { img:'hamstring-curl-machine.jpg',main:'legs', sec:'',        name:'hamstring curl machine', details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'adductor-abductor-machine.jpg',main:'legs',sec:'',      name:'adductor / abductor machines', details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'plank.jpg',                main:'core', sec:'',         name:'plank',                details:['* 60 Sec'] },
-          { img:'russian-twists.jpg',       main:'core', sec:'',         name:'russian twists',       details:['* 30 Reps'] },
-          { img:'leg-raises.jpg',           main:'core', sec:'',         name:'leg raises',           details:['* 15 Reps'] }
+        wednesday:{ title:'Legs & Core',  time:'60 min', exercises:[
+          { img:'leg-press-machine.jpg',    main:'legs',  sec:'', name:'leg press machine',    details:['* 4 Sets','* 8–12 Reps'] },
+          { img:'hamstring-curl-machine.jpg',main:'legs', sec:'', name:'hamstring curl machine', details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'adductor-abductor-machine.jpg',main:'legs',sec:'',name:'adductor / abductor machines', details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'plank.jpg',                main:'core',  sec:'', name:'plank',                details:['* 60 Sec'] },
+          { img:'russian-twists.jpg',       main:'core',  sec:'', name:'russian twists',       details:['* 30 Reps'] },
+          { img:'leg-raises.jpg',           main:'core',  sec:'', name:'leg raises',           details:['* 15 Reps'] }
         ]},
-        thursday: { title:'Shoulders + Full Body',time:'60 min',    exercises:[
-          { img:'shoulder-press-machine.jpg',main:'shoulders',sec:'',    name:'shoulder press machine', details:['* 4 Sets','* 8–12 Reps'] },
-          { img:'dumbbell-lateral-raise.jpg',main:'shoulders',sec:'',    name:'dumbbell lateral raise', details:['* 3 Sets','* 12 Reps'] },
-          { img:'front-raise.jpg',           main:'shoulders',sec:'',    name:'front raise',           details:['* 2 Sets','* 12 Reps'] },
-          { img:'cable-row-deadlift-row.jpg',main:'back',      sec:'',    name:'cable row / deadlift row', details:['* 3 Sets','* 10 Reps'] },
-          { img:'plank.jpg',                main:'core',      sec:'',    name:'plank',                details:['* 1 Min'] },
-          { img:'mountain-climbers.jpg',    main:'core',      sec:'',    name:'mountain climbers',    details:['* 30 Reps'] },
-          { img:'russian-twists.jpg',       main:'core',      sec:'',    name:'russian twists',       details:['* 30 Reps'] }
+        thursday: { title:'Shoulders + Full Body',time:'60 min',exercises:[
+          { img:'shoulder-press-machine.jpg',main:'shoulders',sec:'',name:'shoulder press machine', details:['* 4 Sets','* 8–12 Reps'] },
+          { img:'dumbbell-lateral-raise.jpg',main:'shoulders',sec:'',name:'dumbbell lateral raise', details:['* 3 Sets','* 12 Reps'] },
+          { img:'front-raise.jpg',           main:'shoulders',sec:'',name:'front raise',           details:['* 2 Sets','* 12 Reps'] },
+          { img:'cable-row-deadlift-row.jpg',main:'back',      sec:'',name:'cable row / deadlift row', details:['* 3 Sets','* 10 Reps'] },
+          { img:'plank.jpg',                main:'core',      sec:'',name:'plank',                details:['* 1 Min'] },
+          { img:'mountain-climbers.jpg',    main:'core',      sec:'',name:'mountain climbers',    details:['* 30 Reps'] },
+          { img:'russian-twists.jpg',       main:'core',      sec:'',name:'russian twists',       details:['* 30 Reps'] }
         ]},
-        friday:   { title:'Rest Day',           time:'—',        exercises:[] },
-        saturday: { title:'Outdoor Cycling',    time:'60–90 min', exercises:[
-          { img:'cycling.jpg',             main:'cardio',    sec:'',    name:'outdoor cycling',      details:['* 13–15 Km','* Recovery Tip'] }
+        friday:   { title:'Rest Day',      time:'—',        exercises:[] },
+        saturday: { title:'Outdoor Cycling',time:'60–90 min', exercises:[
+          { img:'cycling.jpg',             main:'cardio',    sec:'', name:'outdoor cycling',      details:['* 13–15 Km','* Recovery Tip'] }
         ]},
-        sunday:   { title:'Full Rest Day',      time:'—',        exercises:[] }
+        sunday:   { title:'Full Rest Day', time:'—',        exercises:[] }
       };
 
       const totalExercises = Object.values(routine)
         .reduce((sum, day) => sum + day.exercises.length, 0);
 
-      const tabs      = document.querySelectorAll('.tab');
-      const cards     = document.getElementById('cards');
-      const subTitle  = document.getElementById('sub-title');
-      const subTime   = document.getElementById('sub-time');
-      const sep       = document.querySelector('.progress-subheader .separator');
+      const tabs = document.querySelectorAll('.tab');
+      const cards = document.getElementById('cards');
+      const subTitle = document.getElementById('sub-title');
+      const subTime = document.getElementById('sub-time');
+      const sep = document.querySelector('.progress-subheader .separator');
       const clockIcon = document.querySelector('.progress-subheader i');
-      const progBar   = document.getElementById('progress-bar');
-      const progCnt   = document.getElementById('progress-count');
-      const landing   = document.getElementById('landing');
-      const app       = document.getElementById('app');
-      const startBtn  = document.getElementById('start-btn');
+      const progBar = document.getElementById('progress-bar');
+      const progCnt = document.getElementById('progress-count');
+      const landing = document.getElementById('landing');
+      const app = document.getElementById('app');
+      const startBtn = document.getElementById('start-btn');
       const weekModal = document.getElementById('week-modal');
       const resetWeek = document.getElementById('reset-week');
 
@@ -389,7 +389,7 @@
               <div class="badges">
                 ${ex.main ? `<div class="badge-main">${capitalize(ex.main)}</div>` : ''}
                 ${ex.sec  ? `<div class="badge-secondary">${capitalize(ex.sec)}</div>` : ''}
-              </div>  
+              </div>
               <div class="card-title">${capitalize(ex.name)}</div>
               ${ex.details.map(d => `<div class="detail-line">${d}</div>`).join('')}
               <label class="form-check">
@@ -429,8 +429,9 @@
         }
 
         progCnt.textContent = `${done}/${totalExercises}`;
-        progBar.style.width = totalExercises ? (done / totalExercises * 100) + '%' : '
-0%';
+        progBar.style.width = totalExercises
+          ? (done / totalExercises * 100) + '%'
+          : '0%';  // fixed fallback
 
         if (!initialRun && done === totalExercises) {
           confetti({ spread: 70, origin: { y: 0.6 } });
@@ -442,7 +443,7 @@
 
       // Tab switching
       tabs.forEach(tab => {
-        tab.addEventListener('click', ()=>{
+        tab.addEventListener('click', () => {
           tabs.forEach(t => t.classList.remove('active'));
           tab.classList.add('active');
           renderDay(tab.dataset.day);
@@ -450,17 +451,17 @@
       });
 
       // Get Started
-      startBtn.addEventListener('click', ()=>{
+      startBtn.addEventListener('click', () => {
         landing.style.display = 'none';
         app.style.display     = 'flex';
       });
 
       // Reset week
-      resetWeek.addEventListener('click', ()=>{
+      resetWeek.addEventListener('click', () => {
         for (const day in routine) {
-          routine[day].exercises.forEach((_, i) => {
-            localStorage.removeItem(`${day}-ex-${i}`);
-          });
+          routine[day].exercises.forEach((_, i) =>
+            localStorage.removeItem(`${day}-ex-${i}`)
+          );
         }
         weekModal.classList.add('hidden');
         initialRun = true;
