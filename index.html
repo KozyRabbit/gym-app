@@ -67,14 +67,12 @@
       padding: 0.5rem 0; gap: 0.5rem;
     }
     .icon-container {
-      width: 48px;
-      height: 48px;
+      width: 48px; height: 48px;
       background: #fff; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
     }
     .icon-container img {
-      width: 32px;
-      height: 32px;
+      width: 32px; height: 32px;
     }
     .header-title {
       font-size: 20px; font-weight: 600; color: var(--text-dark);
@@ -82,15 +80,13 @@
     .tabs {
       display: flex; overflow-x: auto; overflow-y: hidden;
       border-bottom: 1px solid #000;
-      margin-top: 16px;
-      margin-bottom: 0;
+      margin-top: 16px; margin-bottom: 0;
     }
     .tabs::-webkit-scrollbar { display: none; }
     .tab {
       flex: 0 0 auto;
       padding: 0.5rem 0.75rem;
-      font-size: 16px;
-      color: var(--text-dark);
+      font-size: 16px; color: var(--text-dark);
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       height: 2.5rem;
@@ -125,9 +121,7 @@
     .progress-subheader {
       display: flex; align-items: center; gap: 0.5rem;
       padding: 0.25rem 1rem 0.5rem;
-      font-size: 14px;
-      font-weight: 500;
-      color: #555;
+      font-size: 14px; font-weight: 500; color: #555;
     }
     .progress-subheader .separator { color: #555; }
     .progress-subheader i {
@@ -234,7 +228,8 @@
     <div class="header">
       <div class="header-top">
         <div class="icon-container">
-          <img src="images/icon-black.svg" alt="Black App Icon">
+          <!-- now pointing at icon-black.svg -->
+          <img src="images/icon-black.svg" alt="App Icon">
         </div>
         <div class="header-title">Weekly Routine</div>
       </div>
@@ -274,10 +269,8 @@
     <div class="modal">
       <img src="images/celebrate-icon.svg" alt="Celebrate!" class="modal-icon" />
       <div class="modal-title">Congratulations!</div>
-      <div class="modal-text">
-        You’ve completed every workout this week!
-      </div>
-      <button id="reset-week">Start New Week</button>
+      <div class="modal-text">You’ve completed a full workout week!</div>
+      <button id="reset-week">Reset week</button>
     </div>
   </div>
 
@@ -322,21 +315,21 @@
         sunday:   { title:'Full Rest Day', time:'—',        exercises:[] }
       };
 
-      const totalExercises = Object.values(routine).reduce((sum, day) => sum + day.exercises.length, 0);
+      const totalExercises = Object.values(routine).reduce((sum, d) => sum + d.exercises.length, 0);
 
-      const tabs       = document.querySelectorAll('.tab');
-      const cards      = document.getElementById('cards');
-      const subTitle   = document.getElementById('sub-title');
-      const subTime    = document.getElementById('sub-time');
-      const sep        = document.querySelector('.progress-subheader .separator');
-      const clockIcon  = document.querySelector('.progress-subheader i');
-      const progBar    = document.getElementById('progress-bar');
-      const progCnt    = document.getElementById('progress-count');
-      const landing    = document.getElementById('landing');
-      const app        = document.getElementById('app');
-      const startBtn   = document.getElementById('start-btn');
-      const weekModal  = document.getElementById('week-modal');
-      const resetWeek  = document.getElementById('reset-week');
+      const tabs      = document.querySelectorAll('.tab');
+      const cards     = document.getElementById('cards');
+      const subTitle  = document.getElementById('sub-title');
+      const subTime   = document.getElementById('sub-time');
+      const sep       = document.querySelector('.progress-subheader .separator');
+      const clockIcon = document.querySelector('.progress-subheader i');
+      const progBar   = document.getElementById('progress-bar');
+      const progCnt   = document.getElementById('progress-count');
+      const landing   = document.getElementById('landing');
+      const app       = document.getElementById('app');
+      const startBtn  = document.getElementById('start-btn');
+      const weekModal = document.getElementById('week-modal');
+      const resetWeek = document.getElementById('reset-week');
 
       let initialRun = true;
 
@@ -345,11 +338,11 @@
       }
 
       function renderDay(day) {
-        const dataObj = routine[day];
-        subTitle.textContent = dataObj.title;
-        subTime.textContent  = dataObj.time;
+        const { title, time, exercises } = routine[day];
+        subTitle.textContent = title;
+        subTime.textContent  = time;
 
-        if (dataObj.exercises.length === 0) {
+        if (exercises.length === 0) {
           sep.style.display       = 'none';
           clockIcon.style.display = 'none';
           subTime.style.display   = 'none';
@@ -360,21 +353,21 @@
         }
 
         cards.innerHTML = '';
-        if (dataObj.exercises.length === 0) {
-          cards.innerHTML = `<div class="rest-day">${dataObj.title}</div>`;
+        if (!exercises.length) {
+          cards.innerHTML = `<div class="rest-day">${title}</div>`;
           updateProgress();
           return;
         }
 
-        dataObj.exercises.forEach((ex, i) => {
+        exercises.forEach((ex, i) => {
           const card = document.createElement('div');
           card.className = 'card';
           card.innerHTML = `
             <img src="images/${ex.img}" alt="${ex.name}">
             <div class="card-body">
               <div class="badges">
-                ${ex.main ? `<div class="badge-main">${capitalize(ex.main)}</div>` : ''}  
-                ${ex.sec  ? `<div class="badge-secondary">${capitalize(ex.sec)}</div>` : ''}  
+                ${ex.main ? `<div class="badge-main">${capitalize(ex.main)}</div>` : ''}
+                ${ex.sec  ? `<div class="badge-secondary">${capitalize(ex.sec)}</div>` : ''}
               </div>
               <div class="card-title">${capitalize(ex.name)}</div>
               ${ex.details.map(d => `<div class="detail-line">${d}</div>`).join('')}
@@ -387,7 +380,7 @@
         });
 
         cards.scrollTop = 0;
-        cards.querySelectorAll('input[type=checkbox]').forEach(cb => {
+        cards.querySelectorAll('input[type="checkbox"]').forEach(cb => {
           cb.checked = localStorage.getItem(cb.id) === 'true';
           cb.addEventListener('change', () => {
             localStorage.setItem(cb.id, cb.checked);
@@ -399,23 +392,18 @@
 
       function updateProgress() {
         let done = 0;
-        for (const day in routine) {
+        Object.keys(routine).forEach(day => {
           routine[day].exercises.forEach((_, i) => {
             if (localStorage.getItem(`${day}-ex-${i}`) === 'true') done++;
           });
-        }
-        if (initialRun && done === totalExercises) {
-          for (const day in routine) {
-            routine[day].exercises.forEach((_, i) =>
-              localStorage.removeItem(`${day}-ex-${i}`)
-            );
-          }
-          done = 0;
-        }
+        });
+
         progCnt.textContent = `${done}/${totalExercises}`;
         progBar.style.width = totalExercises
           ? (done / totalExercises * 100) + '%'
           : '0%';
+
+        // only show after initial load
         if (!initialRun && done === totalExercises) {
           confetti({ spread: 70, origin: { y: 0.6 } });
           weekModal.classList.remove('hidden');
@@ -438,21 +426,22 @@
         app.style.display     = 'flex';
       });
 
-      // Reset week
+      // Reset week (modal button)
       resetWeek.addEventListener('click', () => {
-        for (const day in routine) {
+        // clear all checkboxes
+        Object.keys(routine).forEach(day => {
           routine[day].exercises.forEach((_, i) =>
             localStorage.removeItem(`${day}-ex-${i}`)
           );
-        }
+        });
+        // hide modal + app, show landing
         weekModal.classList.add('hidden');
-        initialRun = true;
-        tabs.forEach(t => t.classList.remove('active'));
-        document.querySelector('.tab[data-day="monday"]').classList.add('active');
-        renderDay('monday');
+        app.style.display    = 'none';
+        landing.style.display= 'flex';
+        initialRun = true;    // reset flag
       });
 
-      // Initial render
+      // Initial render of Monday
       renderDay('monday');
     });
   </script>
