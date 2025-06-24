@@ -318,7 +318,6 @@
 
       const totalExercises = Object.values(routine)
         .reduce((sum, d) => sum + d.exercises.length, 0);
-
       let modalShown = false;
 
       const tabs      = document.querySelectorAll('.tab');
@@ -339,6 +338,27 @@
         return s.charAt(0).toUpperCase() + s.slice(1);
       }
 
+      // updateProgress now takes showModal flag
+      function updateProgress(showModal) {
+        let done = 0;
+        Object.keys(routine).forEach(day => {
+          routine[day].exercises.forEach((_, i) => {
+            if (localStorage.getItem(`${day}-ex-${i}`) === 'true') done++;
+          });
+        });
+
+        progCnt.textContent = `${done}/${totalExercises}`;
+        progBar.style.width = totalExercises
+          ? (done / totalExercises * 100) + '%'
+          : '0%';
+
+        if (showModal && done === totalExercises && totalExercises > 0 && !modalShown) {
+          modalShown = true;
+          confetti({ spread: 70, origin: { y: 0.6 } });
+          weekModal.classList.remove('hidden');
+        }
+      }
+
       function renderDay(day) {
         const { title, time, exercises } = routine[day];
         subTitle.textContent = title;
@@ -357,7 +377,7 @@
         cards.innerHTML = '';
         if (!exercises.length) {
           cards.innerHTML = `<div class="rest-day">${title}</div>`;
-          updateProgress();
+          updateProgress(false);
           return;
         }
 
@@ -382,35 +402,17 @@
         });
 
         cards.scrollTop = 0;
+        // hook checkboxes
         cards.querySelectorAll('input[type="checkbox"]').forEach(cb => {
           cb.checked = localStorage.getItem(cb.id) === 'true';
           cb.addEventListener('change', () => {
             localStorage.setItem(cb.id, cb.checked);
-            updateProgress();
-          });
-        });
-        updateProgress();
-      }
-
-      function updateProgress() {
-        let done = 0;
-        Object.keys(routine).forEach(day => {
-          routine[day].exercises.forEach((_, i) => {
-            if (localStorage.getItem(`${day}-ex-${i}`) === 'true') done++;
+            updateProgress(true);   // only trigger modal on user change
           });
         });
 
-        progCnt.textContent = `${done}/${totalExercises}`;
-        progBar.style.width = totalExercises
-          ? (done / totalExercises * 100) + '%'
-          : '0%';
-
-        // show modal exactly once when everything is done
-        if (done === totalExercises && totalExercises > 0 && !modalShown) {
-          modalShown = true;
-          confetti({ spread: 70, origin: { y: 0.6 } });
-          weekModal.classList.remove('hidden');
-        }
+        // update without showing modal
+        updateProgress(false);
       }
 
       // Tab switching
@@ -428,21 +430,20 @@
         app.style.display     = 'flex';
       });
 
-      // Reset week (modal button)
+      // Reset week
       resetWeek.addEventListener('click', () => {
-        // clear all saved checkmarks
         Object.keys(routine).forEach(day => {
           routine[day].exercises.forEach((_, i) =>
             localStorage.removeItem(`${day}-ex-${i}`)
           );
         });
-        modalShown = false;            // allow modal next time
+        modalShown = false;
         weekModal.classList.add('hidden');
         app.style.display    = 'none';
         landing.style.display= 'flex';
       });
 
-      // Initial render: Monday
+      // initial render: Monday
       renderDay('monday');
     });
   </script>
