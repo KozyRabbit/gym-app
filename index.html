@@ -177,16 +177,16 @@
       text-align: center; padding: 1rem 0;
     }
     .reset-btn {
-      border: 2px solid #fff;
+      border: 1px solid #fff;      /* updated to 1px stroke */
       color: #fff;
       border-radius: 0.75rem;
       background: transparent;
       font-size: 1rem;
       font-weight: 500;
-      padding: 8px;               /* 8px all around */
+      padding: 8px;               
     }
     .reset-btn i {
-      margin-right: 4px;          /* 4px between icon & text */
+      margin-right: 4px;          
       font-size: 1.2rem;
     }
 
@@ -409,17 +409,16 @@
       startBtn.addEventListener('click', () => {
         landing.style.display = 'none';
         app.style.display     = 'flex';
-        // always re-render Monday on start
         tabs.forEach(t => t.classList.remove('active'));
         document.querySelector('.tab[data-day="monday"]').classList.add('active');
         renderDay('monday');
       });
 
-      // Reset week: clear storage + back to landing
+      // Reset week
       resetBtn.addEventListener('click', () => {
         Object.keys(routine).forEach(day => {
           routine[day].exercises.forEach((_, i) =>
-            localStorage.removeItem(`${day}-ex-${i}`)
+            localStorage.removeItem(`${day}-ex-${i}`)  
           );
         });
         confettiShown = false;
