@@ -172,34 +172,21 @@
     }
     .form-check input { margin-right: 0.5rem; }
 
-    /* WEEK COMPLETE MODAL */
-    .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.3);
-      backdrop-filter: blur(8px);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 3;
+    /* RESET BUTTON */
+    .reset-container {
+      text-align: center; padding: 1rem 0;
     }
-    .modal-overlay.hidden { display: none; }
-    .modal {
-      background: #fff; padding: 2rem 1.5rem; border-radius: 1rem;
-      text-align: center; max-width: 320px; width: 90%;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    .reset-btn {
+      border: 2px solid #fff;
+      color: #fff;
+      border-radius: 0.75rem;
+      background: transparent;
+      font-size: 1rem;
+      font-weight: 500;
     }
-    .modal-icon {
-      width: 64px; height: 64px; margin-bottom: 16px;
-    }
-    .modal-title {
-      font-size: 1.25rem; font-weight: 600; color: #000;
-      margin-bottom: 8px;
-    }
-    .modal-text {
-      font-size: 1rem; color: #333; margin-bottom: 1.5rem;
-    }
-    .modal button {
-      background: var(--primary); color: #000; border: none;
-      border-radius: 24px; padding: 0.5rem 1.5rem; font-weight: 600;
-      cursor: pointer;
+    .reset-btn i {
+      margin-right: 0.5rem;
+      font-size: 1.2rem;
     }
 
     /* REST & FOOTER */
@@ -217,13 +204,15 @@
 
   <!-- LANDING -->
   <div id="landing">
-    <div class="icon"><img src="images/icon-green.svg" alt="Green App Icon"></div>
+    <div class="icon">
+      <img src="images/icon-green.svg" alt="Green App Icon">
+    </div>
     <div class="welcome">Welcome to Gym</div>
     <div class="headline">Master Your Weekly Workouts</div>
     <button id="start-btn">Get Started</button>
   </div>
 
-  <!-- APP -->
+  <!-- MAIN APP -->
   <div id="app">
     <div class="header">
       <div class="header-top">
@@ -260,19 +249,16 @@
     </div>
 
     <div class="cards" id="cards"></div>
-    <div class="footer">Gym App 2025 ©</div>
-  </div>
 
-  <!-- WEEK COMPLETE MODAL -->
-  <div id="week-modal" class="modal-overlay hidden">
-    <div class="modal">
-      <img src="images/celebrate-icon.svg" alt="Celebrate!" class="modal-icon" />
-      <div class="modal-title">Congratulations!</div>
-      <div class="modal-text">
-        You’ve completed a full workout week!
-      </div>
-      <button id="reset-week">Reset week</button>
+    <!-- Reset Week Button -->
+    <div class="reset-container">
+      <button id="reset-btn" class="reset-btn">
+        <i class="bi bi-arrow-clockwise"></i>
+        Reset week
+      </button>
     </div>
+
+    <div class="footer">Gym App 2025 ©</div>
   </div>
 
   <script>
@@ -318,7 +304,7 @@
 
       const totalExercises = Object.values(routine)
         .reduce((sum, d) => sum + d.exercises.length, 0);
-      let modalShown = false;
+      let confettiShown = false;
 
       const tabs      = document.querySelectorAll('.tab');
       const cards     = document.getElementById('cards');
@@ -331,31 +317,27 @@
       const landing   = document.getElementById('landing');
       const app       = document.getElementById('app');
       const startBtn  = document.getElementById('start-btn');
-      const weekModal = document.getElementById('week-modal');
-      const resetWeek = document.getElementById('reset-week');
+      const resetBtn  = document.getElementById('reset-btn');
 
       function capitalize(s) {
         return s.charAt(0).toUpperCase() + s.slice(1);
       }
 
-      // updateProgress now takes showModal flag
-      function updateProgress(showModal) {
+      function updateProgress(triggerConfetti) {
         let done = 0;
         Object.keys(routine).forEach(day => {
           routine[day].exercises.forEach((_, i) => {
             if (localStorage.getItem(`${day}-ex-${i}`) === 'true') done++;
           });
         });
-
         progCnt.textContent = `${done}/${totalExercises}`;
         progBar.style.width = totalExercises
           ? (done / totalExercises * 100) + '%'
           : '0%';
 
-        if (showModal && done === totalExercises && totalExercises > 0 && !modalShown) {
-          modalShown = true;
+        if (triggerConfetti && done === totalExercises && totalExercises > 0 && !confettiShown) {
+          confettiShown = true;
           confetti({ spread: 70, origin: { y: 0.6 } });
-          weekModal.classList.remove('hidden');
         }
       }
 
@@ -402,16 +384,14 @@
         });
 
         cards.scrollTop = 0;
-        // hook checkboxes
         cards.querySelectorAll('input[type="checkbox"]').forEach(cb => {
           cb.checked = localStorage.getItem(cb.id) === 'true';
           cb.addEventListener('change', () => {
             localStorage.setItem(cb.id, cb.checked);
-            updateProgress(true);   // only trigger modal on user change
+            updateProgress(true);
           });
         });
 
-        // update without showing modal
         updateProgress(false);
       }
 
@@ -430,17 +410,16 @@
         app.style.display     = 'flex';
       });
 
-      // Reset week
-      resetWeek.addEventListener('click', () => {
+      // Reset week: clear storage + go back to landing
+      resetBtn.addEventListener('click', () => {
         Object.keys(routine).forEach(day => {
           routine[day].exercises.forEach((_, i) =>
             localStorage.removeItem(`${day}-ex-${i}`)
           );
         });
-        modalShown = false;
-        weekModal.classList.add('hidden');
-        app.style.display    = 'none';
-        landing.style.display= 'flex';
+        confettiShown = false;
+        app.style.display     = 'none';
+        landing.style.display = 'flex';
       });
 
       // initial render: Monday
