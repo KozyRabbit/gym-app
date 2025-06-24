@@ -316,7 +316,10 @@
         sunday:   { title:'Full Rest Day', time:'—',        exercises:[] }
       };
 
-      const totalExercises = Object.values(routine).reduce((sum, d) => sum + d.exercises.length, 0);
+      const totalExercises = Object.values(routine)
+        .reduce((sum, d) => sum + d.exercises.length, 0);
+
+      let modalShown = false;
 
       const tabs      = document.querySelectorAll('.tab');
       const cards     = document.getElementById('cards');
@@ -331,9 +334,6 @@
       const startBtn  = document.getElementById('start-btn');
       const weekModal = document.getElementById('week-modal');
       const resetWeek = document.getElementById('reset-week');
-
-      // new flag
-      let modalShown = false;
 
       function capitalize(s) {
         return s.charAt(0).toUpperCase() + s.slice(1);
@@ -405,7 +405,7 @@
           ? (done / totalExercises * 100) + '%'
           : '0%';
 
-        // show once when fully done
+        // show modal exactly once when everything is done
         if (done === totalExercises && totalExercises > 0 && !modalShown) {
           modalShown = true;
           confetti({ spread: 70, origin: { y: 0.6 } });
@@ -430,19 +430,19 @@
 
       // Reset week (modal button)
       resetWeek.addEventListener('click', () => {
-        // clear all
+        // clear all saved checkmarks
         Object.keys(routine).forEach(day => {
           routine[day].exercises.forEach((_, i) =>
             localStorage.removeItem(`${day}-ex-${i}`)
           );
         });
-        modalShown = false;             // reset trigger
+        modalShown = false;            // allow modal next time
         weekModal.classList.add('hidden');
         app.style.display    = 'none';
         landing.style.display= 'flex';
       });
 
-      // Initial render of Monday
+      // Initial render: Monday
       renderDay('monday');
     });
   </script>
