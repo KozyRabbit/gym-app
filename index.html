@@ -136,7 +136,7 @@
       transition: width 0.3s ease;
     }
 
-    /* CARDS */
+    /* EXERCISE CARDS */
     .cards {
       flex: 1; overflow-y: auto;
       padding: 32px 1rem 1rem;
@@ -183,9 +183,10 @@
       background: transparent;
       font-size: 1rem;
       font-weight: 500;
+      padding: 8px;               /* 8px all around */
     }
     .reset-btn i {
-      margin-right: 0.5rem;
+      margin-right: 4px;          /* 4px between icon & text */
       font-size: 1.2rem;
     }
 
@@ -408,9 +409,13 @@
       startBtn.addEventListener('click', () => {
         landing.style.display = 'none';
         app.style.display     = 'flex';
+        // always re-render Monday on start
+        tabs.forEach(t => t.classList.remove('active'));
+        document.querySelector('.tab[data-day="monday"]').classList.add('active');
+        renderDay('monday');
       });
 
-      // Reset week: clear storage + go back to landing
+      // Reset week: clear storage + back to landing
       resetBtn.addEventListener('click', () => {
         Object.keys(routine).forEach(day => {
           routine[day].exercises.forEach((_, i) =>
