@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Gym App</title>
 
   <!-- Bootstrap 5 CSS -->
@@ -28,8 +28,7 @@
     html, body { height: 100%; font-family: "Helvetica Neue", sans-serif; }
     body {
       background: var(--bg-dark) url('images/bg-texture.jpg') center/cover no-repeat;
-      color: #fff;
-      overflow: hidden;
+      color: #fff; overflow: hidden;
     }
 
     /* LANDING */
@@ -54,13 +53,11 @@
       font-size: 1rem; font-weight: 700; cursor: pointer;
     }
 
-    /* MAIN APP – now no bottom padding */
+    /* MAIN APP */
     #app { display: none; }
     .main-interface {
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       height: 100%;
-      /* padding-bottom removed */
     }
 
     /* HEADER & TABS */
@@ -163,13 +160,10 @@
     }
     .form-check input { margin-right: 0.5rem; }
 
-    /* RESET BUTTON – perfectly centered */
+    /* RESET BUTTON FOOTER */
     .reset-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 64px;               /* total footer height */
-      margin-bottom: 0;           /* remove any extra gap */
+      display: flex; justify-content: center; align-items: center;
+      height: 64px;  /* total footer height, button centered */
     }
     .reset-btn {
       padding: 0 16px; height: 40px;
@@ -219,12 +213,23 @@
     </div>
 
     <div class="progress-wrapper">
-      <!-- progress content -->
+      <div class="progress-header">
+        <div class="progress-label">Week Progress</div>
+        <div class="progress-count" id="progress-count">0/0</div>
+      </div>
+      <div class="progress-subheader">
+        <span id="sub-title">Chest &amp; Triceps</span>
+        <span class="separator">|</span>
+        <i class="bi bi-clock"></i>
+        <span id="sub-time">60 min</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
     </div>
 
     <div class="cards" id="cards"></div>
 
-    <!-- perfectly centered footer -->
     <div class="reset-container">
       <button id="reset-btn" class="reset-btn">
         <i class="bi bi-arrow-clockwise"></i>
@@ -234,7 +239,171 @@
   </div>
 
   <script>
-    // ...your existing JS...
+    document.addEventListener('DOMContentLoaded', () => {
+      const routine = {
+        monday:   { title:'Chest & Triceps', time:'60 min', exercises:[
+          { img:'chest-press-machine.jpg',   main:'chest',    sec:'triceps', name:'chest press machine',    details:['* 4 Sets','* 8–12 Reps'] },
+          { img:'pec-deck-cable-fly.jpg',     main:'chest',    sec:'',        name:'pec deck / cable fly',     details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'dumbbell-bench-press.jpg',   main:'chest',    sec:'triceps', name:'dumbbell bench press',   details:['* 3 Sets','* 8–10 Reps'] },
+          { img:'triceps-pushdown.jpg',       main:'triceps',  sec:'',        name:'triceps pushdown',       details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'overhead-extension.jpg',     main:'triceps',  sec:'',        name:'overhead extension',     details:['* 2 Sets','* 8–10 Reps'] }
+        ]},
+        tuesday:  { title:'Back & Biceps',    time:'60 min', exercises:[
+          { img:'lat-pulldown-machine.jpg',   main:'back',     sec:'',        name:'lat pulldown machine',   details:['* 4 Sets','* 8–12 Reps'] },
+          { img:'seated-cable-row.jpg',       main:'back',     sec:'',        name:'seated cable row',       details:['* 3 Sets','* 8–12 Reps'] },
+          { img:'dumbbell-row.jpg',           main:'back',     sec:'',        name:'dumbbell row',           details:['* 3 Sets','* 8–10 Reps'] },
+          { img:'bicep-curl-machine.jpg',     main:'biceps',   sec:'',        name:'bicep curl machine',     details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'face-pull-reverse-fly.jpg',  main:'back',     sec:'',        name:'face pull / reverse fly',details:['* 2 Sets','* 12–15 Reps'] }
+        ]},
+        wednesday:{ title:'Legs & Core',      time:'60 min', exercises:[
+          { img:'leg-press-machine.jpg',      main:'legs',     sec:'',        name:'leg press machine',      details:['* 4 Sets','* 8–12 Reps'] },
+          { img:'hamstring-curl-machine.jpg', main:'legs',     sec:'',        name:'hamstring curl machine', details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'adductor-abductor-machine.jpg',main:'legs',   sec:'',        name:'adductor / abductor',    details:['* 3 Sets','* 10–12 Reps'] },
+          { img:'plank.jpg',                  main:'core',     sec:'',        name:'plank',                  details:['* 60 Sec'] },
+          { img:'russian-twists.jpg',         main:'core',     sec:'',        name:'russian twists',         details:['* 30 Reps'] },
+          { img:'leg-raises.jpg',             main:'core',     sec:'',        name:'leg raises',             details:['* 15 Reps'] }
+        ]},
+        thursday:{ title:'Shoulders + Full Body', time:'60 min', exercises:[
+          { img:'shoulder-press-machine.jpg',main:'shoulders',sec:'',        name:'shoulder press machine', details:['* 4 Sets','* 8–12 Reps'] },
+          { img:'dumbbell-lateral-raise.jpg',main:'shoulders',sec:'',        name:'dumbbell lateral raise', details:['* 3 Sets','* 12 Reps'] },
+          { img:'front-raise.jpg',           main:'shoulders',sec:'',        name:'front raise',            details:['* 2 Sets','* 12 Reps'] },
+          { img:'cable-row-deadlift-row.jpg',main:'back',     sec:'',        name:'cable row / deadlift',   details:['* 3 Sets','* 10 Reps'] },
+          { img:'plank.jpg',                 main:'core',     sec:'',        name:'plank',                  details:['* 1 Min'] },
+          { img:'mountain-climbers.jpg',     main:'core',     sec:'',        name:'mountain climbers',      details:['* 30 Reps'] },
+          { img:'russian-twists.jpg',        main:'core',     sec:'',        name:'russian twists',         details:['* 30 Reps'] }
+        ]},
+        friday:   { title:'Rest Day',        time:'—',        exercises:[] },
+        saturday: { title:'Outdoor Cycling', time:'60–90 min', exercises:[
+          { img:'cycling.jpg',               main:'cardio',   sec:'',        name:'outdoor cycling',        details:['* 13–15 Km','* Recovery Tip'] }
+        ]},
+        sunday:   { title:'Full Rest Day',   time:'—',        exercises:[] }
+      };
+
+      const totalExercises = Object.values(routine)
+        .reduce((sum, d) => sum + d.exercises.length, 0);
+      let confettiShown = false;
+
+      const tabs      = document.querySelectorAll('.tab');
+      const cards     = document.getElementById('cards');
+      const subTitle  = document.getElementById('sub-title');
+      const subTime   = document.getElementById('sub-time');
+      const sep       = document.querySelector('.progress-subheader .separator');
+      const clockIcon = document.querySelector('.progress-subheader i');
+      const progBar   = document.getElementById('progress-bar');
+      const progCnt   = document.getElementById('progress-count');
+      const landing   = document.getElementById('landing');
+      const app       = document.getElementById('app');
+      const startBtn  = document.getElementById('start-btn');
+      const resetBtn  = document.getElementById('reset-btn');
+
+      function capitalize(s) {
+        return s.charAt(0).toUpperCase() + s.slice(1);
+      }
+
+      function updateProgress(triggerConfetti) {
+        let done = 0;
+        Object.keys(routine).forEach(day => {
+          routine[day].exercises.forEach((_, i) => {
+            if (localStorage.getItem(`${day}-ex-${i}`) === 'true') done++;
+          });
+        });
+        progCnt.textContent = `${done}/${totalExercises}`;
+        progBar.style.width = totalExercises
+          ? (done / totalExercises * 100) + '%'
+          : '0%';
+        if (triggerConfetti && done === totalExercises && !confettiShown) {
+          confettiShown = true;
+          confetti({ spread: 70, origin: { y: 0.6 } });
+        }
+      }
+
+      function renderDay(day) {
+        const { title, time, exercises } = routine[day];
+        subTitle.textContent = title;
+        subTime.textContent  = time;
+
+        if (!exercises.length) {
+          sep.style.display       = 'none';
+          clockIcon.style.display = 'none';
+          subTime.style.display   = 'none';
+        } else {
+          sep.style.display       = '';
+          clockIcon.style.display = '';
+          subTime.style.display   = '';
+        }
+
+        cards.innerHTML = '';
+        if (!exercises.length) {
+          cards.innerHTML = `<div class="rest-day">${title}</div>`;
+          updateProgress(false);
+          return;
+        }
+
+        exercises.forEach((ex, i) => {
+          const card = document.createElement('div');
+          card.className = 'card mb-3';
+          card.innerHTML = `
+            <img src="images/${ex.img}" alt="${ex.name}">
+            <div class="card-body">
+              <div class="badges">
+                ${ex.main ? `<div class="badge-main">${capitalize(ex.main)}</div>` : ''}
+                ${ex.sec  ? `<div class="badge-secondary">${capitalize(ex.sec)}</div>` : ''}
+              </div>
+              <div class="card-title">${capitalize(ex.name)}</div>
+              ${ex.details.map(d => `<div class="detail-line">${d}</div>`).join('')}
+              <label class="form-check">
+                <input type="checkbox" id="${day}-ex-${i}">
+                Completed
+              </label>
+            </div>`;
+          cards.appendChild(card);
+        });
+
+        cards.scrollTop = 0;
+        cards.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          cb.checked = localStorage.getItem(cb.id) === 'true';
+          cb.addEventListener('change', () => {
+            localStorage.setItem(cb.id, cb.checked);
+            updateProgress(true);
+          });
+        });
+
+        updateProgress(false);
+      }
+
+      // tab clicks
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          renderDay(tab.dataset.day);
+        });
+      });
+
+      // Get Started
+      startBtn.addEventListener('click', () => {
+        landing.style.display = 'none';
+        app.style.display     = 'flex';
+        tabs.forEach(t => t.classList.remove('active'));
+        document.querySelector('.tab[data-day="monday"]').classList.add('active');
+        renderDay('monday');
+      });
+
+      // Reset week
+      resetBtn.addEventListener('click', () => {
+        Object.keys(routine).forEach(day => {
+          routine[day].exercises.forEach((_, i) =>
+            localStorage.removeItem(`${day}-ex-${i}`)
+          );
+        });
+        confettiShown = false;
+        app.style.display     = 'none';
+        landing.style.display = 'flex';
+      });
+
+      // initial
+      renderDay('monday');
+    });
   </script>
 </body>
 </html>
