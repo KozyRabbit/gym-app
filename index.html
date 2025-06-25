@@ -28,7 +28,8 @@
     html, body { height: 100%; font-family: "Helvetica Neue", sans-serif; }
     body {
       background: var(--bg-dark) url('images/bg-texture.jpg') center/cover no-repeat;
-      color: #fff; overflow: hidden;
+      color: #fff;
+      overflow: hidden;
     }
 
     /* LANDING */
@@ -53,11 +54,13 @@
       font-size: 1rem; font-weight: 700; cursor: pointer;
     }
 
-    /* MAIN APP */
+    /* MAIN APP – now no bottom padding */
     #app { display: none; }
     .main-interface {
-      display: flex; flex-direction: column;
-      height: 100%; padding-bottom: 1.5rem; /* pb-4 = 24px */
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      /* padding-bottom removed */
     }
 
     /* HEADER & TABS */
@@ -160,15 +163,13 @@
     }
     .form-check input { margin-right: 0.5rem; }
 
-    /* RESET BUTTON */
+    /* RESET BUTTON – perfectly centered */
     .reset-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 64px;          /* fixed height so button centers vertically */
-    }
-    .reset-container.mb-4 {
-      margin-bottom: 1.5rem!important; /* 24px under button */
+      height: 64px;               /* total footer height */
+      margin-bottom: 0;           /* remove any extra gap */
     }
     .reset-btn {
       padding: 0 16px; height: 40px;
@@ -218,24 +219,13 @@
     </div>
 
     <div class="progress-wrapper">
-      <div class="progress-header">
-        <div class="progress-label">Week Progress</div>
-        <div class="progress-count" id="progress-count">0/0</div>
-      </div>
-      <div class="progress-subheader">
-        <span id="sub-title">Chest &amp; Triceps</span>
-        <span class="separator">|</span>
-        <i class="bi bi-clock"></i>
-        <span id="sub-time">60 min</span>
-      </div>
-      <div class="progress-bar-container">
-        <div class="progress-bar" id="progress-bar"></div>
-      </div>
+      <!-- progress content -->
     </div>
 
     <div class="cards" id="cards"></div>
 
-    <div class="reset-container mb-4">
+    <!-- perfectly centered footer -->
+    <div class="reset-container">
       <button id="reset-btn" class="reset-btn">
         <i class="bi bi-arrow-clockwise"></i>
         Reset week
@@ -244,144 +234,7 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const routine = {
-        monday:   { title:'Chest & Triceps', time:'60 min', exercises:[
-          { img:'chest-press-machine.jpg', main:'chest', sec:'triceps', name:'chest press machine', details:['* 4 Sets','* 8–12 Reps'] },
-          { img:'pec-deck-cable-fly.jpg',   main:'chest', sec:'',         name:'pec deck / cable fly', details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'dumbbell-bench-press.jpg', main:'chest', sec:'triceps', name:'dumbbell bench press', details:['* 3 Sets','* 8–10 Reps'] },
-          { img:'triceps-pushdown.jpg',     main:'triceps',sec:'',        name:'triceps pushdown', details:['* 3 Sets','* 10–12 Reps'] },
-          { img:'overhead-extension.jpg',   main:'triceps',sec:'',        name:'overhead extension', details:['* 2 Sets','* 8–10 Reps'] }
-        ]},
-        // ... other days ...
-      };
-
-      const totalExercises = Object.values(routine)
-        .reduce((sum, d) => sum + d.exercises.length, 0);
-      let confettiShown = false;
-
-      const tabs      = document.querySelectorAll('.tab');
-      const cards     = document.getElementById('cards');
-      const subTitle  = document.getElementById('sub-title');
-      const subTime   = document.getElementById('sub-time');
-      const sep       = document.querySelector('.progress-subheader .separator');
-      const clockIcon = document.querySelector('.progress-subheader i');
-      const progBar   = document.getElementById('progress-bar');
-      const progCnt   = document.getElementById('progress-count');
-      const landing   = document.getElementById('landing');
-      const app       = document.getElementById('app');
-      const startBtn  = document.getElementById('start-btn');
-      const resetBtn  = document.getElementById('reset-btn');
-
-      function capitalize(s) {
-        return s.charAt(0).toUpperCase() + s.slice(1);
-      }
-
-      function updateProgress(triggerConfetti) {
-        let done = 0;
-        Object.keys(routine).forEach(day => {
-          routine[day].exercises.forEach((_, i) => {
-            if (localStorage.getItem(`${day}-ex-${i}`) === 'true') done++;
-          });
-        });
-        progCnt.textContent = `${done}/${totalExercises}`;
-        progBar.style.width = totalExercises
-          ? (done / totalExercises * 100) + '%'
-          : '0%';
-
-        if (triggerConfetti && done === totalExercises && totalExercises > 0 && !confettiShown) {
-          confettiShown = true;
-          confetti({ spread: 70, origin: { y: 0.6 } });
-        }
-      }
-
-      function renderDay(day) {
-        const { title, time, exercises } = routine[day];
-        subTitle.textContent = title;
-        subTime.textContent  = time;
-
-        if (!exercises.length) {
-          sep.style.display       = 'none';
-          clockIcon.style.display = 'none';
-          subTime.style.display   = 'none';
-        } else {
-          sep.style.display       = '';
-          clockIcon.style.display = '';
-          subTime.style.display   = '';
-        }
-
-        cards.innerHTML = '';
-        if (!exercises.length) {
-          cards.innerHTML = `<div class="rest-day">${title}</div>`;
-          updateProgress(false);
-          return;
-        }
-
-        exercises.forEach((ex, i) => {
-          const card = document.createElement('div');
-          card.className = 'card mb-3';
-          card.innerHTML = `
-            <img src="images/${ex.img}" alt="${ex.name}">
-            <div class="card-body">
-              <div class="badges">
-                ${ex.main ? `<div class="badge-main">${capitalize(ex.main)}</div>` : ''}
-                ${ex.sec  ? `<div class="badge-secondary">${capitalize(ex.sec)}</div>` : ''}
-              </div>
-              <div class="card-title">${capitalize(ex.name)}</div>
-              ${ex.details.map(d => `<div class="detail-line">${d}</div>`).join('')}
-              <label class="form-check">
-                <input type="checkbox" id="${day}-ex-${i}">
-                Completed
-              </label>
-            </div>`;
-          cards.appendChild(card);
-        });
-
-        cards.scrollTop = 0;
-        cards.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-          cb.checked = localStorage.getItem(cb.id) === 'true';
-          cb.addEventListener('change', () => {
-            localStorage.setItem(cb.id, cb.checked);
-            updateProgress(true);
-          });
-        });
-
-        updateProgress(false);
-      }
-
-      // Tab switching
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          renderDay(tab.dataset.day);
-        });
-      });
-
-      // Get Started
-      startBtn.addEventListener('click', () => {
-        landing.style.display = 'none';
-        app.style.display     = 'flex';
-        tabs.forEach(t => t.classList.remove('active'));
-        document.querySelector('.tab[data-day="monday"]').classList.add('active');
-        renderDay('monday');
-      });
-
-      // Reset week
-      resetBtn.addEventListener('click', () => {
-        Object.keys(routine).forEach(day => {
-          routine[day].exercises.forEach((_, i) =>
-            localStorage.removeItem(`${day}-ex-${i}`)
-          );
-        });
-        confettiShown = false;
-        app.style.display     = 'none';
-        landing.style.display = 'flex';
-      });
-
-      // initial render
-      renderDay('monday');
-    });
+    // ...your existing JS...
   </script>
 </body>
 </html>
