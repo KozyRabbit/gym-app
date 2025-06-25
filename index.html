@@ -55,7 +55,12 @@
     }
 
     /* APP */
-    #app { display: none; height: 100%; flex-direction: column; }
+    #app.main-interface {
+      display: none;
+      height: 100%;
+      flex-direction: column;
+      padding-bottom: 1.5rem; /* pb-4 = 24px */
+    }
 
     /* HEADER & TABS */
     .header {
@@ -143,10 +148,10 @@
     }
     .card {
       background: #fff; color: #000;
-      border-radius: 1rem; margin-bottom: 1rem;
-      overflow: hidden;
+      border-radius: 1rem;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+    .card.mb-3 { margin-bottom: 1rem!important; } /* mb-3 = 16px */
     .card img {
       width: 100%; height: 180px; object-fit: cover;
     }
@@ -174,7 +179,7 @@
 
     /* RESET BUTTON */
     .reset-container {
-      text-align: center; padding: 1rem 0;
+      text-align: center;
     }
     .reset-btn {
       padding: 0 16px;
@@ -190,18 +195,13 @@
       color: #ffffff;
     }
     .reset-btn i {
-      margin-right: 4px;
       font-size: 1.2rem;
     }
 
-    /* REST & FOOTER */
+    /* REST DAY STYLE */
     .rest-day {
       text-align: center; padding: 2rem;
       color: #888; font-size: 1.125rem;
-    }
-    .footer {
-      text-align: center; padding: 0.5rem 0;
-      font-size: 0.75rem; color: #888; flex-shrink: 0;
     }
   </style>
 </head>
@@ -218,7 +218,7 @@
   </div>
 
   <!-- MAIN APP -->
-  <div id="app">
+  <div id="app" class="main-interface d-flex flex-column">
     <div class="header">
       <div class="header-top">
         <div class="icon-container">
@@ -256,14 +256,12 @@
     <div class="cards" id="cards"></div>
 
     <!-- Reset Week Button -->
-    <div class="reset-container">
+    <div class="reset-container mb-4">
       <button id="reset-btn" class="reset-btn">
         <i class="bi bi-arrow-clockwise"></i>
         Reset week
       </button>
     </div>
-
-    <div class="footer">Gym App 2025 ©</div>
   </div>
 
   <script>
@@ -291,7 +289,7 @@
           { img:'russian-twists.jpg',       main:'core',  sec:'', name:'russian twists',       details:['* 30 Reps'] },
           { img:'leg-raises.jpg',           main:'core',  sec:'', name:'leg raises',           details:['* 15 Reps'] }
         ]},
-        thursday: { title:'Shoulders + Full Body',time:'60 min',exercises:[
+        thursday:{ title:'Shoulders + Full Body',time:'60 min',exercises:[
           { img:'shoulder-press-machine.jpg',main:'shoulders',sec:'',name:'shoulder press machine', details:['* 4 Sets','* 8–12 Reps'] },
           { img:'dumbbell-lateral-raise.jpg',main:'shoulders',sec:'',name:'dumbbell lateral raise', details:['* 3 Sets','* 12 Reps'] },
           { img:'front-raise.jpg',           main:'shoulders',sec:'',name:'front raise',           details:['* 2 Sets','* 12 Reps'] },
@@ -370,7 +368,7 @@
 
         exercises.forEach((ex, i) => {
           const card = document.createElement('div');
-          card.className = 'card';
+          card.className = 'card mb-3';  // mb-3 = 16px
           card.innerHTML = `
             <img src="images/${ex.img}" alt="${ex.name}">
             <div class="card-body">
