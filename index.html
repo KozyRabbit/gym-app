@@ -159,7 +159,7 @@
       text-transform: capitalize;
     }
     .badge-main { background: var(--primary); color: var(--text-dark); }
-    .badge-secondary { background: #000; color: #fff; }
+    .badge-secondary { background: #000; color: #fff; }  
     .card-title {
       font-weight: 600; margin-bottom: 0.5rem; text-transform: capitalize;
     }
@@ -177,16 +177,20 @@
       text-align: center; padding: 1rem 0;
     }
     .reset-btn {
-      border: 1px solid #fff;      /* updated to 1px stroke */
-      color: #fff;
-      border-radius: 0.75rem;
+      padding: 0 16px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid;
+      border-radius: 8px;
       background: transparent;
-      font-size: 1rem;
-      font-weight: 500;
-      padding: 8px;               
+      font-size: 14px;
+      border-color: #ffffff;
+      color: #ffffff;
     }
     .reset-btn i {
-      margin-right: 4px;          
+      margin-right: 4px;
       font-size: 1.2rem;
     }
 
@@ -418,7 +422,7 @@
       resetBtn.addEventListener('click', () => {
         Object.keys(routine).forEach(day => {
           routine[day].exercises.forEach((_, i) =>
-            localStorage.removeItem(`${day}-ex-${i}`)  
+            localStorage.removeItem(`${day}-ex-${i}`)
           );
         });
         confettiShown = false;
